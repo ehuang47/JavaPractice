@@ -3,25 +3,49 @@ package d5_exceptions_java8;
 import java.util.*;
 
 public class Employee {
-    final private String name;
-    final private Integer salary;
+    private String name;
+    private Integer salary;
 
+    public Employee(){}
     public Employee(String name, Integer salary) {
         this.name = name;
         this.salary = salary;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
+    }
+
     @Override
     public boolean equals(Object obj) { // use default equals, which is referential equality
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
         Employee emp = (Employee) obj;
-        return (name == emp.name) && (salary == emp.salary);
+        return Objects.equals(name, emp.name) && Objects.equals(salary, emp.salary);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.name, this.salary);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Employee {\n name = %s \n", name) +
+                String.format(" salary = %s\n}", salary);
     }
 
     public static void main(String[] args){
@@ -37,6 +61,8 @@ public class Employee {
                 new Employee("emp9", 90000),
                 new Employee("emp10", 100000)
         );
+
+        System.out.println(employeeList.get(0).toString());
 
 //        Filter for > 80000 salary, print names
 //        List<Employee> richEmployees = employeeList.stream().filter(emp -> emp.salary > 80000).collect(Collectors.toList());
