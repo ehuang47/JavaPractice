@@ -1,4 +1,4 @@
-import java.util.List;
+package d4_collections;
 
 public class ListNode {
     int val;
@@ -78,7 +78,7 @@ public class ListNode {
         }
 
         ListNode merged = ListNode.merge(head1, head2);
-//        ListNode.loopList(merged);
+//        d4_collections.ListNode.loopList(merged);
 
         ListNode allEvenHead = ListNode.removeOdd(merged);
         ListNode.loopList(allEvenHead);

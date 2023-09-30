@@ -8,6 +8,6 @@ Java Collections
 
 | File                      | Purpose |
 |---------------------------| - |
-| [MaxPQ](./MaxPQ.java) | A maximum Priority Queue. |
-| [ListNode](./ListNode.java) | Implementation of ListNode that can merge 2 sorted linked lists and remove those with an odd value. |
-| [GHashMap](./GHashMap.java) | A custom implementation of generic HashMap that follows linked list structure (without using LinkedList) for each bucket slot. |
+| [d4_collections.MaxPQ](./MaxPQ.java) | A maximum Priority Queue. |
+| [d4_collections.ListNode](./ListNode.java) | Implementation of d4_collections.ListNode that can merge 2 sorted linked lists and remove those with an odd value. |
+| [d4_collections.GHashMap](./GHashMap.java) | A custom implementation of generic HashMap that follows linked list structure (without using LinkedList) for each bucket slot. |

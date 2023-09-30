@@ -1,3 +1,5 @@
+package d2_java;
+
 public class ConvertTime {
 
     static void convertMins(int minutes){

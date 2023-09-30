@@ -1,3 +1,5 @@
+package d4_collections;
+
 import java.util.PriorityQueue;
 import java.util.Comparator;
 public class MaxPQ {
@@ -15,7 +17,7 @@ public class MaxPQ {
     }
 
     public static void main(String[] args) {
-//        MaxPQ mpq = new MaxPQ();
+//        d4_collections.MaxPQ mpq = new d4_collections.MaxPQ();
 //        mpq.offer(1);
 //        mpq.offer(10);
 //        mpq.offer(26);

@@ -1,4 +1,4 @@
-import java.util.HashMap;
+package d4_collections;
 
 public class GHashMap<K,V> {
     private Node<K,V>[] buckets;
@@ -20,7 +20,7 @@ public class GHashMap<K,V> {
                 this.buckets[hash] = node;
                 return true;
             }
-            Node<K,V> prev = bucket;
+            d4_collections.Node<K,V> prev = bucket;
             bucket = bucket.next;
             while (bucket != null) {
                 if (bucket.key.equals(node.key)) { // handle collisions
