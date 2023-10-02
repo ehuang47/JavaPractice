@@ -2,7 +2,7 @@
 Java OOP
 </h1>
 
-> Practice OOP with Java: inheritance/polymorphism/abstraction/encapsulation, diamond problem, abstract classes, interfaces, overriding/overloading, toString(), this keyword
+> Practice OOP with Java: inheritance/polymorphism/abstraction/encapsulation, diamond problem, abstract classes, interfaces, overriding/overloading, toString(), this keyword.
 
 ## Summary
 
