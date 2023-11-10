@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="tennisCoach" class="com.example.d3_spring_annotation.TennisCoach"/>
+    <bean id="golfCoach" class="com.example.d3_spring_annotation.GolfCoach" scope="prototype"/>
+    <bean id="footballCoach" class="com.example.d3_spring_annotation.FootballCoach"/>
+
+    <bean id="player" class="com.example.d3_spring_annotation.Player">
+        <constructor-arg ref="tennisCoach" index="0"/>
+        <constructor-arg ref="footballCoach" name="footballCoach"/>
+        <property name="golfCoach" ref="golfCoach"/>
+    </bean>
+</beans>
