@@ -48,6 +48,9 @@ public class D4JdbcApplication {
 //            String updatePizzaQuery = "update pizza set price=\"4.50\" where id=7;";
 //            System.out.println(statement.executeUpdate(updatePizzaQuery));
 
+            // doing a transaction?
+            // just conn.setAutoCommit(false), execute all statements, and conn.commit()
+            // if catching RuntimeException, should try to do conn.rollback
 
         } catch (ClassNotFoundException | SQLException e) {
             System.out.printf("driver:%s, url:%s",JDBC_DRIVER, DB_URL);
