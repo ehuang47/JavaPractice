@@ -14,6 +14,6 @@ public class Question {
     private int quizId;
     private int correctChoiceId;
     private String description;
-    private List<Choice> choices;
+    private List<Choice> choiceList;
 
 }

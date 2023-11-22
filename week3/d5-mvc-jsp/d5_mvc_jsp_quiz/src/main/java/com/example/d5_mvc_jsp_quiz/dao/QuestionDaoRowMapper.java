@@ -14,7 +14,7 @@ public class QuestionDaoRowMapper implements RowMapper<Question> {
         Question question = new Question();
         question.setId(rs.getInt("id"));
         question.setDescription(rs.getString("description"));
-        question.setChoices(null);
+        question.setChoiceList(null);
         question.setCorrectChoiceId(rs.getInt("correct_choice_id"));
         return question;
     }

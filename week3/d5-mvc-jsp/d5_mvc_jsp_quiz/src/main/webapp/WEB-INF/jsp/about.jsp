@@ -14,6 +14,11 @@
 </head>
 <body>
 <h1>About</h1>
+<p>
+    Server Version: <%= application.getServerInfo() %><br>
+    Servlet Version: <%= application.getMajorVersion() %>.<%= application.getMinorVersion() %> <br>
+    JSP Version: <%= JspFactory.getDefaultFactory().getEngineInfo().getSpecificationVersion() %> <br>
+</p>
 <p>Interests: ${interests}</p>
 </body>
 </html>
