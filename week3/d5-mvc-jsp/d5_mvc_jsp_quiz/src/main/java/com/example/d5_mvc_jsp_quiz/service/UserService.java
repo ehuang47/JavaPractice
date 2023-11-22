@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserDao userDao;
-    private static final User EMPTY_USER = new User(-1, "","");
+    private static final User EMPTY_USER = new User(-1, "", "", "",0,"","");
     @Autowired
     public UserService(UserDao userDao) {
         this.userDao = userDao;

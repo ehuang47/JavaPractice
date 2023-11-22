@@ -13,11 +13,11 @@ import java.util.List;
 @Repository
 public class UserDao {
     private static final List<User> users;
-    private static final User EMPTY_USER = new User(-1, "", "");
+    private static final User EMPTY_USER = new User(-1, "", "", "",0,"","");
 
-    JdbcTemplate jdbcTemplate;
-    UserDaoRowMapper rowMapper;
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+    private UserDaoRowMapper rowMapper;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
     public UserDao(JdbcTemplate jdbcTemplate, UserDaoRowMapper rowMapper, NamedParameterJdbcTemplate namedParameterJdbcTemplate){
@@ -28,9 +28,10 @@ public class UserDao {
 
     static {
         users = new ArrayList<>();
-        users.add(new User(1, "user1", "pass1"));
-        users.add(new User(2, "user2", "pass2"));
-        users.add(new User(3, "user3", "pass3"));
+        for (int i = 0; i < 3; i++) {
+            users.add(new User(i, "user" + i, "pass" + i, String.format("user%s@t.com", i),0,"user"+i,"lastName"+i));
+        }
+        users.add(new User(999, "admin", "pass", "admin@t.com",1,"admin","istrator"));
     }
 
     public User getUserById(int id) {
