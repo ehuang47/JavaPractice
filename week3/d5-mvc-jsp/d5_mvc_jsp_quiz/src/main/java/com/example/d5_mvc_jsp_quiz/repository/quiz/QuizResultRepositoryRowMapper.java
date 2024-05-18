@@ -1,11 +1,11 @@
-package com.example.d5_mvc_jsp_quiz.dao;
+package com.example.d5_mvc_jsp_quiz.repository.quiz;
 
 import com.example.d5_mvc_jsp_quiz.domain.QuizResult;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class QuizResultDaoRowMapper implements RowMapper<QuizResult> {
+public class QuizResultRepositoryRowMapper implements RowMapper<QuizResult> {
     @Override
     public QuizResult mapRow(java.sql.ResultSet resultSet, int i) throws java.sql.SQLException {
         return new QuizResult(

@@ -1,4 +1,4 @@
-package com.example.d5_mvc_jsp_quiz.dao;
+package com.example.d5_mvc_jsp_quiz.repository.question;
 
 import com.example.d5_mvc_jsp_quiz.domain.Question;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class QuestionDaoRowMapper implements RowMapper<Question> {
+public class QuestionRepositoryRowMapper implements RowMapper<Question> {
     @Override
     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
         Question question = new Question();

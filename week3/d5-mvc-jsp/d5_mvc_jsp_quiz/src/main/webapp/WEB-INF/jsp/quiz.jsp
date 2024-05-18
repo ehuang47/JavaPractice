@@ -9,20 +9,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<%--    <title>${quiz.category} Quiz</title>--%>
+    <title>${quiz.category} Quiz</title>
     <%@include file="partials/header.jsp"%>
 </head>
 <body>
-<%--<h1>${quiz.category} Quiz</h1>--%>
+<h1>${quiz.category} Quiz</h1>
 <form method="post" action="/quiz">
-<%--    <ol>--%>
-<%--        <c:forEach var="question" items="${quiz.questionList}" varStatus="loop">--%>
-<%--            <li>${question.description}</li>--%>
-<%--            <c:forEach var="choice" items="${question.choiceList}" varStatus="loop">--%>
-<%--                <input type="radio" name="selectedChoiceId" value="${choice.id}">${choice.description}<br>--%>
-<%--            </c:forEach>--%>
-<%--        </c:forEach>--%>
-<%--    </ol>--%>
+    <ol>
+        <c:forEach var="question" items="${quiz.questionList}" varStatus="loop">
+            <li>${question.description}</li>
+            <c:forEach var="choice" items="${question.choiceList}" varStatus="loop">
+                <input id="choice-${choice.id}" type="radio" name="selectedChoiceId-${question.id}" value="${choice.id}"/>
+                <label for="choice-${choice.id}">${choice.description}</label>
+                <br>
+            </c:forEach>
+        </c:forEach>
+    </ol>
     <button type="submit">Submit</button>
 </form>
 </body>

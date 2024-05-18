@@ -1,4 +1,4 @@
-package com.example.d5_mvc_jsp_quiz.dao;
+package com.example.d5_mvc_jsp_quiz.repository.quiz;
 
 import com.example.d5_mvc_jsp_quiz.domain.Quiz;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class QuizDaoRowMapper implements RowMapper<QuizDao> {
+public class QuizRepositoryRowMapper implements RowMapper<QuizRepository> {
     @Override
-    public QuizDao mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public QuizRepository mapRow(ResultSet rs, int rowNum) throws SQLException {
         Quiz quiz = new Quiz();
         quiz.setId(rs.getInt("id"));
         quiz.setCategory(rs.getString("category"));

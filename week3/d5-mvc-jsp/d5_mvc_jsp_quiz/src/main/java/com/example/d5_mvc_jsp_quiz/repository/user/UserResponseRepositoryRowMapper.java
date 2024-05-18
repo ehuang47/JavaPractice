@@ -1,4 +1,4 @@
-package com.example.d5_mvc_jsp_quiz.dao;
+package com.example.d5_mvc_jsp_quiz.repository.user;
 
 import com.example.d5_mvc_jsp_quiz.domain.UserResponse;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class UserResponseDaoRowMapper implements RowMapper<UserResponse> {
+public class UserResponseRepositoryRowMapper implements RowMapper<UserResponse> {
     @Override
     public UserResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
         UserResponse userResponse = new UserResponse();

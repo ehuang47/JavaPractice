@@ -1,16 +1,15 @@
-package com.example.d5_mvc_jsp_quiz.dao;
+package com.example.d5_mvc_jsp_quiz.repository.question;
 
 import com.example.d5_mvc_jsp_quiz.domain.Choice;
 import com.example.d5_mvc_jsp_quiz.domain.Question;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class QuestionDao {
+public class QuestionRepository {
     @Getter
     private static final Question question;
     private static final List<Choice> choices;
