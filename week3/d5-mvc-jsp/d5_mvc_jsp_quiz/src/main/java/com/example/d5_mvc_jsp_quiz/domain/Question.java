@@ -10,10 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class Question {
-    private int id;
-    private int quizId;
-    private int correctChoiceId;
-    private String description;
-    private List<Choice> choiceList;
+  private Long id;
+  private Long quizId;
+  private Long correctChoiceId;
+  private String description;
+  private List<Choice> choiceList;
 
 }

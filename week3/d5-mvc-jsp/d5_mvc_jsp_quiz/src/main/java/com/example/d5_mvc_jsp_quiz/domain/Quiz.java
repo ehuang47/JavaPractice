@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class Quiz {
-    private int id;
-    private String category;
-    private List<Question> questionList;
+  private Long id;
+  private String category;
+  private List<Question> questionList;
 }

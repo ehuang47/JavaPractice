@@ -20,7 +20,7 @@ public class QuizController {
   }
 
   @GetMapping("/{id}") //localhost:8080/quiz/1
-  public String quizModelView(@PathVariable("id") int id, Model model) {
+  public String quizModelView(@PathVariable("id") Long id, Model model) {
     Quiz quiz = this.quizService.findById(id);
     model.addAttribute("quiz", quiz);
     return "quiz";

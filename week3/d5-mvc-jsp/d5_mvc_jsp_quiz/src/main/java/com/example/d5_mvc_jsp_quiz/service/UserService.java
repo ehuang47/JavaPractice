@@ -22,7 +22,7 @@ public class UserService implements ObjectService<User> {
   }
 
   @Override
-  public User findById(int id) {
+  public User findById(Long id) {
     return userRepository.findById(id);
   }
 

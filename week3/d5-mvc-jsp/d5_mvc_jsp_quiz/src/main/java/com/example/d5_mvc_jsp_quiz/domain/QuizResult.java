@@ -8,9 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class QuizResult {
-    private int id;
-    private int userId;
-    private int quizId;
-    private String startTime;
-    private String endTime;
+  private Long id;
+  private Long userId;
+  private Long quizId;
+  private String startTime;
+  private String endTime;
 }

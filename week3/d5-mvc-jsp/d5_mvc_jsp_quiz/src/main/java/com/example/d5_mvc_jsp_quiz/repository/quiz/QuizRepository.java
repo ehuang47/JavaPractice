@@ -3,6 +3,8 @@ package com.example.d5_mvc_jsp_quiz.repository.quiz;
 import com.example.d5_mvc_jsp_quiz.domain.Choice;
 import com.example.d5_mvc_jsp_quiz.domain.Question;
 import com.example.d5_mvc_jsp_quiz.domain.Quiz;
+import com.example.d5_mvc_jsp_quiz.exception.EntityNotFoundException;
+import com.example.d5_mvc_jsp_quiz.exception.EntityType;
 import com.example.d5_mvc_jsp_quiz.repository.ObjectRepository;
 import com.example.d5_mvc_jsp_quiz.repository.user.UserRepositoryRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +19,14 @@ import java.util.Optional;
 @Repository
 public class QuizRepository implements ObjectRepository<Quiz> {
   private static final List<Quiz> quizzes;
-  private static final Quiz EMPTY_QUIZ = new Quiz(-1, "category", new ArrayList<>());
+  private static final Quiz EMPTY_QUIZ = new Quiz(-1L, "category", new ArrayList<>());
 
   static {
     quizzes = new ArrayList<>();
-    Quiz quiz = new Quiz(1, "Test", null);
+    Quiz quiz = new Quiz(1L, "Test", null);
     ArrayList<Question> questionList = new ArrayList<>();
-    for (int i = 0; i < 10; i++) {
-      Question q = new Question(i, 1, i * 4, "Question " + i, null);
+    for (Long i = 0L; i < 10; i++) {
+      Question q = new Question(i, 1L, i * 4, "Question " + i, null);
       questionList.add(q);
       ArrayList<Choice> choiceList = new ArrayList<>();
       for (int j = 0; j < 4; j++) {
@@ -53,12 +55,12 @@ public class QuizRepository implements ObjectRepository<Quiz> {
   }
 
   @Override
-  public Quiz findById(int id) {
+  public Quiz findById(Long id) {
     Optional<Quiz> quiz = quizzes.stream()
-      .filter(q -> q.getId() == id)
+      .filter(q -> q.getId().equals(id))
       .findFirst();
 
-    return quiz.orElse(EMPTY_QUIZ);
+    return quiz.orElseThrow(() -> new EntityNotFoundException(EntityType.QUIZ, id));
   }
 
   @Override

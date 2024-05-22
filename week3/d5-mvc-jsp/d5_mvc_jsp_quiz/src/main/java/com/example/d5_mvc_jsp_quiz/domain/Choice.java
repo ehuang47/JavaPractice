@@ -1,6 +1,10 @@
 package com.example.d5_mvc_jsp_quiz.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -8,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class Choice {
-    private int id;
-    private int questionId;
-    private String description;
+  private Long id;
+  private Long questionId;
+  private String description;
 }

@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface ObjectRepository<T> {
   public void save(T t);
-  public T findById(int id);
+
+  public T findById(Long id);
+
   public List<T> findAll();
 //  public T findByName(String name);
 //  public T delete(int id);

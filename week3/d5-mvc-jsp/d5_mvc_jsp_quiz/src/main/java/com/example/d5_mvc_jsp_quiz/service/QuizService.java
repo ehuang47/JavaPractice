@@ -22,7 +22,7 @@ public class QuizService implements ObjectService<Quiz> {
   }
 
   @Override
-  public Quiz findById(int id) {
+  public Quiz findById(Long id) {
     return quizRepository.findById(id);
   }
 

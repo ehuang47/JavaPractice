@@ -8,11 +8,11 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class User {
-    private int id;
-    private String username;
-    private String password;
-    private String email;
-    private int role; // 0-user, 1-admin
-    private String firstName;
-    private String lastName;
+  private Long id;
+  private String username;
+  private String password;
+  private String email;
+  private int role; // 0-user, 1-admin
+  private String firstName;
+  private String lastName;
 }
