@@ -5,3 +5,4 @@ public class EntityNotFoundException extends RuntimeException {
     super(String.format("%s with id %d could not be found.", entity.name(), id));
   }
 }
+

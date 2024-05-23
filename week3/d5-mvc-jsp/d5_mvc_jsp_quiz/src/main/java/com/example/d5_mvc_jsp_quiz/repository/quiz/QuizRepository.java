@@ -1,49 +1,24 @@
 package com.example.d5_mvc_jsp_quiz.repository.quiz;
 
-import com.example.d5_mvc_jsp_quiz.domain.Choice;
-import com.example.d5_mvc_jsp_quiz.domain.Question;
 import com.example.d5_mvc_jsp_quiz.domain.Quiz;
-import com.example.d5_mvc_jsp_quiz.exception.EntityNotFoundException;
-import com.example.d5_mvc_jsp_quiz.exception.EntityType;
 import com.example.d5_mvc_jsp_quiz.repository.ObjectRepository;
-import com.example.d5_mvc_jsp_quiz.repository.user.UserRepositoryRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class QuizRepository implements ObjectRepository<Quiz> {
-  private static final List<Quiz> quizzes;
-  private static final Quiz EMPTY_QUIZ = new Quiz(-1L, "category", new ArrayList<>());
-
-  static {
-    quizzes = new ArrayList<>();
-    Quiz quiz = new Quiz(1L, "Test", null);
-    ArrayList<Question> questionList = new ArrayList<>();
-    for (Long i = 0L; i < 10; i++) {
-      Question q = new Question(i, 1L, i * 4, "Question " + i, null);
-      questionList.add(q);
-      ArrayList<Choice> choiceList = new ArrayList<>();
-      for (int j = 0; j < 4; j++) {
-        choiceList.add(new Choice((i * 4) + j, i, "Choice " + j));
-      }
-      q.setChoiceList(choiceList);
-    }
-    quiz.setQuestionList(questionList);
-    quizzes.add(quiz);
-  }
-
   private JdbcTemplate jdbcTemplate;
-  private UserRepositoryRowMapper rowMapper;
+  private QuizRepositoryRowMapper rowMapper;
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
   @Autowired
-  public QuizRepository(JdbcTemplate jdbcTemplate, UserRepositoryRowMapper rowMapper, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+  public QuizRepository(JdbcTemplate jdbcTemplate, QuizRepositoryRowMapper rowMapper, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
     this.rowMapper = rowMapper;
     this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -55,16 +30,19 @@ public class QuizRepository implements ObjectRepository<Quiz> {
   }
 
   @Override
-  public Quiz findById(Long id) {
-    Optional<Quiz> quiz = quizzes.stream()
-      .filter(q -> q.getId().equals(id))
-      .findFirst();
-
-    return quiz.orElseThrow(() -> new EntityNotFoundException(EntityType.QUIZ, id));
+  public Optional<Quiz> findById(Long id) {
+//    String query = "SELECT * FROM week3_quiz WHERE quiz_id = ?";
+//    Quiz quiz = jdbcTemplate.queryForObject(query, rowMapper, id);
+    String query = "SELECT * FROM week3_quiz WHERE quiz_id = :quizId";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    parameterSource.addValue("quizId", id);
+    Quiz quiz = namedParameterJdbcTemplate.queryForObject(query, parameterSource, rowMapper);
+    return Optional.ofNullable(quiz);
   }
 
   @Override
   public List<Quiz> findAll() {
-    return null;
+    String query = "SELECT * FROM week3_quiz";
+    return jdbcTemplate.query(query, rowMapper);
   }
 }

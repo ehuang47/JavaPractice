@@ -1,11 +1,12 @@
 package com.example.d5_mvc_jsp_quiz.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ObjectRepository<T> {
   public void save(T t);
 
-  public T findById(Long id);
+  public Optional<T> findById(Long id);
 
   public List<T> findAll();
 //  public T findByName(String name);

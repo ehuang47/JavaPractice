@@ -9,14 +9,14 @@ import java.sql.SQLException;
 
 @Component
 public class UserResponseRepositoryRowMapper implements RowMapper<UserResponse> {
-    @Override
-    public UserResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
-        UserResponse userResponse = new UserResponse();
-        userResponse.setUserId(rs.getInt("user_id"));
-        userResponse.setId(rs.getInt("id"));
-        userResponse.setQuestionId(rs.getInt("question_id"));
-        userResponse.setQuizResultId(rs.getInt("quiz_result_id"));
-        userResponse.setSelectedChoiceId(rs.getInt("selected_choice_id"));
-        return userResponse;
-    }
+  @Override
+  public UserResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+    UserResponse userResponse = new UserResponse();
+    userResponse.setUserId(rs.getLong("user_id"));
+    userResponse.setId(rs.getLong("id"));
+    userResponse.setQuestionId(rs.getLong("question_id"));
+    userResponse.setQuizResultId(rs.getLong("quiz_result_id"));
+    userResponse.setSelectedChoiceId(rs.getLong("selected_choice_id"));
+    return userResponse;
+  }
 }

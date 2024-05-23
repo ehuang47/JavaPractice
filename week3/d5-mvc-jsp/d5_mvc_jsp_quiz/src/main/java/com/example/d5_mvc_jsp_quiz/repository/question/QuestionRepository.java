@@ -1,32 +1,53 @@
 package com.example.d5_mvc_jsp_quiz.repository.question;
 
-import com.example.d5_mvc_jsp_quiz.domain.Choice;
 import com.example.d5_mvc_jsp_quiz.domain.Question;
-import lombok.Getter;
+import com.example.d5_mvc_jsp_quiz.repository.ObjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class QuestionRepository {
-    @Getter
-    private static final Question question;
-    private static final List<Choice> choices;
+public class QuestionRepository implements ObjectRepository<Question> {
+  private JdbcTemplate jdbcTemplate;
+  private QuestionRepositoryRowMapper rowMapper;
+  private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    static {
-        choices = new ArrayList<>();
-        choices.add(new Choice(1, 1,"42"));
-        choices.add(new Choice(2, 2,"correct answer"));
-        choices.add(new Choice(3, 3,"yes"));
-        question = new Question(
-                1,
-                1,
-                1,
-                "What is the correct answer?",
-                choices);
-    }
+  @Autowired
+  public QuestionRepository(JdbcTemplate jdbcTemplate,
+                            QuestionRepositoryRowMapper rowMapper,
+                            NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+    this.rowMapper = rowMapper;
+    this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+  }
 
-    // need a method to select 5 random questions
-    // create a method to query all choices per question and return the list (using choice dao row mapper)
+  @Override
+  public void save(Question question) {
+  }
+
+  @Override
+  public Optional<Question> findById(Long id) {
+    String query = "SELECT * FROM week3_question WHERE question_id = :questionId";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    parameterSource.addValue("questionId", id);
+    Question question = namedParameterJdbcTemplate.queryForObject(query, parameterSource, rowMapper);
+    return Optional.ofNullable(question);
+  }
+
+  public List<Question> findAllByQuiz(Long quizId) {
+    String query = "SELECT * FROM week3_question WHERE quiz_id = :quizId";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    parameterSource.addValue("quizId", quizId);
+    return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
+  }
+
+  @Override
+  public List<Question> findAll() {
+    return null;
+  }
 }

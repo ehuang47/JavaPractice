@@ -1,8 +1,6 @@
 package com.example.d5_mvc_jsp_quiz.repository.user;
 
 import com.example.d5_mvc_jsp_quiz.domain.User;
-import com.example.d5_mvc_jsp_quiz.exception.EntityNotFoundException;
-import com.example.d5_mvc_jsp_quiz.exception.EntityType;
 import com.example.d5_mvc_jsp_quiz.repository.ObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,12 +41,12 @@ public class UserRepository implements ObjectRepository<User> {
   }
 
   @Override
-  public User findById(Long id) {
+  public Optional<User> findById(Long id) {
     Optional<User> user = users.stream()
       .filter(a -> a.getId().equals(id))
       .findFirst();
 
-    return user.orElseThrow(() -> new EntityNotFoundException(EntityType.USER, id));
+    return user;
   }
 
   @Override
