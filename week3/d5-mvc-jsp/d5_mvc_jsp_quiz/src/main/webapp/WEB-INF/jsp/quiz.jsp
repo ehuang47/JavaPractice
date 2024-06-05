@@ -16,6 +16,7 @@
 <h1>${quiz.category} Quiz</h1>
 <form method="post" action="${pageContext.request.contextPath}/quiz-result">
     <input type="hidden" name="quizId" value="${quiz.id}"/>
+    <input type="hidden" name="dateStarted" value="${dateStarted}"/>
     <ol>
         <c:forEach var="question" items="${quiz.questionList}" varStatus="loop">
             <li>${question.description}</li>

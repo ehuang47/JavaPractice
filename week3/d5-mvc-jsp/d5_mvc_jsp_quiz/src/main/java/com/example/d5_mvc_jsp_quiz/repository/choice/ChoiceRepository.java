@@ -27,7 +27,9 @@ public class ChoiceRepository implements ObjectRepository<Choice> {
   }
 
   @Override
-  public void save(Choice choice) {
+  public Long save(Choice choice) {
+    return 1L;
+
   }
 
   @Override

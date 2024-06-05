@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class QuizResultRepository implements ObjectRepository<QuizResult> {
   }
 
   @Override
-  public void save(QuizResult quizResult) {
+  public Long save(QuizResult quizResult) {
     String query = """
       INSERT INTO week3_quiz_result (quiz_id, date_started, date_submitted) VALUES 
       (:quizId, :dateStarted, :dateSubmitted )""";
@@ -36,12 +38,19 @@ public class QuizResultRepository implements ObjectRepository<QuizResult> {
       .addValue("quizId", quizResult.getQuizId())
       .addValue("dateStarted", quizResult.getDateStarted())
       .addValue("dateSubmitted", quizResult.getDateSubmitted());
-    namedParameterJdbcTemplate.update(query, parameterSource);
+
+    KeyHolder keyHolder = new GeneratedKeyHolder();
+    namedParameterJdbcTemplate.update(query, parameterSource, keyHolder, new String[]{"quiz_result_id"});
+    return keyHolder.getKey().longValue();
   }
 
   @Override
   public Optional<QuizResult> findById(Long id) {
-    return Optional.empty();
+    String query = "SELECT * FROM week3_quiz_result WHERE quiz_result_id = :quizResultId";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+      .addValue("quizResultId", id);
+    QuizResult quizResult = namedParameterJdbcTemplate.queryForObject(query, parameterSource, rowMapper);
+    return Optional.ofNullable(quizResult);
   }
 
   @Override

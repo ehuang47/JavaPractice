@@ -19,8 +19,8 @@ public class UserService implements ObjectService<User> {
   }
 
   @Override
-  public void save(User user) {
-    userRepository.save(user);
+  public Long save(User user) {
+    return userRepository.save(user);
   }
 
   @Override

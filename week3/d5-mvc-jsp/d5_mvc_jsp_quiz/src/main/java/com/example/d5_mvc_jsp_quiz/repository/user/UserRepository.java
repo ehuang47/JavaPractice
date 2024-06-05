@@ -36,8 +36,8 @@ public class UserRepository implements ObjectRepository<User> {
   }
 
   @Override
-  public void save(User user) {
-
+  public Long save(User user) {
+    return 1L;
   }
 
   @Override

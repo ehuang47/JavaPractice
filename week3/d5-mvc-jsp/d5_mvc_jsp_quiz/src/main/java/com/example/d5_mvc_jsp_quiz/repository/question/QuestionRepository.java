@@ -27,7 +27,8 @@ public class QuestionRepository implements ObjectRepository<Question> {
   }
 
   @Override
-  public void save(Question question) {
+  public Long save(Question question) {
+    return 1L;
   }
 
   @Override
@@ -39,7 +40,7 @@ public class QuestionRepository implements ObjectRepository<Question> {
     return Optional.ofNullable(question);
   }
 
-  public List<Question> findAllByQuiz(Long quizId) {
+  public List<Question> findAllByQuizId(Long quizId) {
     String query = "SELECT * FROM week3_question WHERE quiz_id = :quizId";
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
     parameterSource.addValue("quizId", quizId);

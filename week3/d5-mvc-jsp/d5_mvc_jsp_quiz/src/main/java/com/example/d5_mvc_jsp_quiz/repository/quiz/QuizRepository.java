@@ -25,8 +25,8 @@ public class QuizRepository implements ObjectRepository<Quiz> {
   }
 
   @Override
-  public void save(Quiz quiz) {
-
+  public Long save(Quiz quiz) {
+    return 1L;
   }
 
   @Override

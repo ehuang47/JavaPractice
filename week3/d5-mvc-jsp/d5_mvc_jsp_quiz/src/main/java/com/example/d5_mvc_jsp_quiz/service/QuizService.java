@@ -36,8 +36,8 @@ public class QuizService implements ObjectService<Quiz> {
   }
 
   @Override
-  public void save(Quiz quiz) {
-    quizRepository.save(quiz);
+  public Long save(Quiz quiz) {
+    return quizRepository.save(quiz);
   }
 
   @Override
@@ -50,7 +50,7 @@ public class QuizService implements ObjectService<Quiz> {
     Quiz quiz = quizRepository.findById(id)
       .orElseThrow(() -> new EntityNotFoundException(EntityType.QUIZ, id));
 
-    List<Question> questionList = questionRepository.findAllByQuiz(quiz.getId());
+    List<Question> questionList = questionRepository.findAllByQuizId(quiz.getId());
 
     if (questionList.isEmpty()) {
       throw new NoResultsException(EntityType.QUESTION, "Quiz is not finalized.");

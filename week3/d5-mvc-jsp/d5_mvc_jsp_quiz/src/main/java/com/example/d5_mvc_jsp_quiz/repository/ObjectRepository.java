@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ObjectRepository<T> {
-  public void save(T t);
+  public Long save(T t);
 
   public Optional<T> findById(Long id);
 
