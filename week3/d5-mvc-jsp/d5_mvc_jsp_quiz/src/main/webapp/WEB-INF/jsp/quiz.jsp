@@ -10,16 +10,21 @@
 <html>
 <head>
     <title>${quiz.category} Quiz</title>
-    <%@include file="partials/header.jsp"%>
+    <%@include file="partials/header.jsp" %>
 </head>
 <body>
 <h1>${quiz.category} Quiz</h1>
-<form method="post" action="/quiz">
+<form method="post" action="${pageContext.request.contextPath}/quiz-result">
+    <input type="hidden" name="quizId" value="${quiz.id}"/>
     <ol>
         <c:forEach var="question" items="${quiz.questionList}" varStatus="loop">
             <li>${question.description}</li>
-            <c:forEach var="choice" items="${question.choiceList}" varStatus="loop">
-                <input id="choice-${choice.id}" type="radio" name="selectedChoiceId-${question.id}" value="${choice.id}"/>
+            <c:forEach var="choice" items="${question.choiceList}"
+                       varStatus="loop">
+                <input id="choice-${choice.id}" type="radio"
+                       name="selected-choice-question-${question.id}"
+                       value="${choice.id}"
+                       required/>
                 <label for="choice-${choice.id}">${choice.description}</label>
                 <br>
             </c:forEach>

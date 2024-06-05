@@ -6,17 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class QuizResult {
+public class QuizResultChoice {
   private Long id;
-  private Long quizId;
-  private String dateStarted;
-  private String dateSubmitted;
-  private List<QuizResultChoice> quizResultChoiceList;
+  private Long quizResultId;
+  private Long questionId;
+  private Long choiceId;
 }
