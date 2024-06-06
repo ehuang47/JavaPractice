@@ -78,10 +78,6 @@ public class QuizResultService implements ObjectService<QuizResult> {
       .orElseThrow(() -> new EntityNotFoundException(EntityType.QUIZ_RESULT, id));
   }
 
-  public List<QuizResultChoice> findAllByQuizResultId(Long id) {
-    return quizResultChoiceRepository.findAllByQuizResultId(id);
-  }
-
   @Override
   public List<QuizResult> findAll() {
     return null;

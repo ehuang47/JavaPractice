@@ -47,6 +47,15 @@ public class QuestionRepository implements ObjectRepository<Question> {
     return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
   }
 
+  public List<Question> findAllByQuestionList(List<Long> questionIdList) {
+    String query = """
+      SELECT * FROM week3_question 
+      WHERE question_id IN (:questionIdList)""";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+      .addValue("questionIdList", questionIdList);
+    return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
+  }
+
   @Override
   public List<Question> findAll() {
     return null;

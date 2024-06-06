@@ -8,10 +8,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Quiz Results</title>
-    <%@include file="partials/header.jsp"%>
+    <title>${quizCategory} Quiz Results</title>
+    <%@include file="partials/header.jsp" %>
 </head>
 <body>
-You've selected ___ which is __
+<h1>${quizCategory} Quiz Results</h1>
+<h3>Duration: ${quizDurationMinutes}min ${quizDurationSeconds}sec</h3>
+
+<ol>
+    <c:forEach var="c" items="${savedChoiceList}" varStatus="loop">
+        <c:set var="q" value="${questionIdToQuestion.get(c.questionId)}"/>
+        <li style="background-color: ${q.correctChoiceId == c.choiceId ? "green":"red"}">
+                ${questionIdToQuestion.get(c.questionId).description}
+        </li>
+    </c:forEach>
+</ol>
 </body>
 </html>

@@ -12,7 +12,7 @@ public class QuizResultChoiceRepositoryRowMapper implements RowMapper<QuizResult
   @Override
   public QuizResultChoice mapRow(ResultSet rs, int rowNum) throws SQLException {
     return new QuizResultChoice(
-      rs.getLong("id"),
+      rs.getLong("quiz_result_choice_id"),
       rs.getLong("quiz_result_id"),
       rs.getLong("question_id"),
       rs.getLong("choice_id")
