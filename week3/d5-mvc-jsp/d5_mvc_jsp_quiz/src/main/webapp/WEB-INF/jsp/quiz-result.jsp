@@ -13,14 +13,33 @@
 </head>
 <body>
 <h1>${quizCategory} Quiz Results</h1>
+<h3>Submitted by: firstname lastname</h3>
+<h3>Start: ${startTime}</h3>
+<h3>End: ${endTime}</h3>
 <h3>Duration: ${quizDurationMinutes}min ${quizDurationSeconds}sec</h3>
+<h3>Result: ${result}</h3>
 
 <ol>
-    <c:forEach var="c" items="${savedChoiceList}" varStatus="loop">
-        <c:set var="q" value="${questionIdToQuestion.get(c.questionId)}"/>
-        <li style="background-color: ${q.correctChoiceId == c.choiceId ? "green":"red"}">
-                ${questionIdToQuestion.get(c.questionId).description}
-        </li>
+    <c:forEach var="question" items="${questionList}" varStatus="loop">
+        <li>${question.description}</li>
+        <c:forEach var="choice" items="${question.choiceList}"
+                   varStatus="loop">
+            <c:set var="selected"
+                   value="${choice.id == questionIdToSelectedChoiceId.get(question.id)}"/>
+            <c:set var="choiceBackgroundColor"
+                   value="background-color: ${choice.id == question.correctChoiceId ? 'green' : 'red'}"/>
+
+            <input id="choice-${choice.id}" type="radio"
+                   name="selected-choice-question-${question.id}"
+                   value="${choice.id}"
+                ${selected ? 'checked' : ''}
+                   disabled/>
+            <label for="choice-${choice.id}"
+                   style="${selected ? choiceBackgroundColor : ""}">
+                    ${choice.description}
+            </label>
+            <br>
+        </c:forEach>
     </c:forEach>
 </ol>
 </body>

@@ -11,6 +11,8 @@ import com.example.d5_mvc_jsp_quiz.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +47,69 @@ public class QuizResultController {
     this.questionService = questionService;
   }
 
+  private String getLocalTime(ZonedDateTime time) {
+    ZoneId userTimeZone = ZoneId.of("America/Chicago");
+
+    // Convert start and end times to the user's time zone
+    ZonedDateTime userTime = time.withZoneSameInstant(userTimeZone);
+
+    // Define the desired format
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+
+    // Format the times
+    return userTime.format(formatter);
+  }
+
+  private void buildQuizResult(QuizResult savedQuizResult,
+                               QuizResultChoiceService quizResultChoiceService,
+                               QuestionService questionService,
+                               Long quizResultId,
+                               Model model) {
+    ZonedDateTime start = Instant.parse(savedQuizResult.getDateStarted()).atZone(ZoneId.of("UTC"));
+    ZonedDateTime end = Instant.parse(savedQuizResult.getDateSubmitted()).atZone(ZoneId.of("UTC"));
+    Duration duration = Duration.between(start, end);
+    model.addAttribute("startTime", getLocalTime(start));
+    model.addAttribute("endTime", getLocalTime(end));
+    model.addAttribute("quizDurationMinutes", duration.toMinutes());
+    model.addAttribute("quizDurationSeconds", duration.toSeconds());
+
+    List<QuizResultChoice> savedChoiceList = quizResultChoiceService.findAllByQuizResultId(quizResultId);
+
+    List<Long> questionIdList = savedChoiceList.stream()
+      .map(QuizResultChoice::getQuestionId)
+      .collect(Collectors.toList());
+    List<Question> questionList = questionService.findAllByQuestionIdListWithChoices(questionIdList);
+    questionList = questionService.populateQuestionListChoices(questionList);
+    Map<Long, Long> questionIdToSelectedChoiceId = new LinkedHashMap<>();
+    for (QuizResultChoice c : savedChoiceList) {
+      questionIdToSelectedChoiceId.put(c.getQuestionId(), c.getChoiceId());
+    }
+
+    int scoreCount = 0;
+    // assume question list followed the order of ids from savedChoiceList
+    for (Question q : questionList) {
+      if (q.getCorrectChoiceId().equals(questionIdToSelectedChoiceId.get(q.getId()))) {
+        scoreCount++;
+      }
+    }
+
+    System.out.println(questionList);
+    System.out.println(questionIdToSelectedChoiceId);
+    model.addAttribute("result", scoreCount > 3 ? "Pass" : "Fail");
+    model.addAttribute("questionIdToSelectedChoiceId", questionIdToSelectedChoiceId);
+    model.addAttribute("questionList", questionList);
+  }
+
+  @GetMapping("/{id}")
+  public String getQuizResult(@PathVariable("id") Long id, Model model) {
+    QuizResult savedQuizResult = quizResultService.findById(id);
+    Quiz quiz = quizService.findById(savedQuizResult.getQuizId());
+    model.addAttribute("quizCategory", quiz.getCategory());
+    buildQuizResult(savedQuizResult, quizResultChoiceService, questionService, id, model);
+
+    return "quiz-result";
+  }
+
   @PostMapping("")
   public String submitQuiz(@RequestParam Map<String, String> body, Model model) {
     QuizResult submission = quizResultService.bodyMapper(body);
@@ -52,28 +118,10 @@ public class QuizResultController {
 
     Long quizResultId = quizResultService.save(submission);
     QuizResult savedQuizResult = quizResultService.findById(quizResultId);
-    ZonedDateTime start = Instant.parse(savedQuizResult.getDateStarted()).atZone(ZoneId.of("UTC"));
-    ZonedDateTime end = Instant.parse(savedQuizResult.getDateSubmitted()).atZone(ZoneId.of("UTC"));
-    Duration duration = Duration.between(start, end);
-    model.addAttribute("quizDurationMinutes", duration.toMinutes());
-    model.addAttribute("quizDurationSeconds", duration.toSeconds());
+    buildQuizResult(savedQuizResult, quizResultChoiceService, questionService, quizResultId, model);
 
-    List<QuizResultChoice> savedChoiceList = quizResultChoiceService.findAllByQuizResultId(quizResultId);
-    model.addAttribute("savedChoiceList", savedChoiceList);
-
-    List<Long> questionIdList = savedChoiceList.stream()
-      .map(QuizResultChoice::getQuestionId)
-      .collect(Collectors.toList());
-    List<Question> questionList = questionService.findAllByQuestionList(questionIdList);
-    Map<Long, Question> questionIdToQuestion = new LinkedHashMap<>();
-    for (Question q : questionList) {
-      questionIdToQuestion.put(q.getId(), q);
-    }
-    model.addAttribute("questionIdToQuestion", questionIdToQuestion);
-
-
-    System.out.println(savedChoiceList);
-    System.out.println(questionIdToQuestion.get(savedChoiceList.get(0).getQuestionId()));
+//    System.out.println(savedChoiceList);
+//    System.out.println(questionIdToQuestion.get(savedChoiceList.get(0).getQuestionId()));
     return "quiz-result";
   }
 }
