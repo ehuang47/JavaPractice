@@ -80,6 +80,6 @@ public class QuizResultService implements ObjectService<QuizResult> {
 
   @Override
   public List<QuizResult> findAll() {
-    return null;
+    return quizResultRepository.findAll();
   }
 }

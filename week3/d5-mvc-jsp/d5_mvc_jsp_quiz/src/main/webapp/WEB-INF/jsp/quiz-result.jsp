@@ -18,6 +18,9 @@
 <h3>End: ${endTime}</h3>
 <h3>Duration: ${quizDurationMinutes}min ${quizDurationSeconds}sec</h3>
 <h3>Result: ${result}</h3>
+<a href="/home">
+    <button>Take Another Quiz</button>
+</a>
 
 <ol>
     <c:forEach var="question" items="${questionList}" varStatus="loop">
@@ -42,5 +45,6 @@
         </c:forEach>
     </c:forEach>
 </ol>
+
 </body>
 </html>

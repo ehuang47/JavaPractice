@@ -8,11 +8,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Login</title>
+    <title>Register</title>
 </head>
 <body>
 <div>
-    <form method="post" action="${pageContext.request.contextPath}/login">
+    <form method="post" action="${pageContext.request.contextPath}/register">
+        <div>
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email"/>
+        </div>
         <div>
             <label for="username">Username</label>
             <input type="text" name="username" id="username"/>
@@ -21,7 +25,7 @@
             <label for="password">Password</label>
             <input type="password" name="password" id="password"/>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
     </form>
 </div>
 

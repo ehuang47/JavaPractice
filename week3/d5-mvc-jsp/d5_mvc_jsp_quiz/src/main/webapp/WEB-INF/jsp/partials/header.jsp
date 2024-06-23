@@ -15,12 +15,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<nav>
-    <a href="/register">Register</a>
-    <a href="/login">Login</a>
-    <a href="/home">Home</a>
-    <a href="/quiz">Quiz</a>
-    <a href="/contact-us">Contact Us</a>
+<nav style="display: flex;">
+    <div>
+        <a href="/register">
+            <button>Register</button>
+        </a>
+    </div>
+    <div>
+        <a href="/login">
+            <button>Login/logout</button>
+        </a>
+    </div>
+    <div>
+        <a href="/home">
+            <button>Home</button>
+        </a>
+    </div>
+    <div>
+        <a href="/contact-us">
+            <button>Contact Us</button>
+        </a>
+    </div>
 </nav>
 </body>
 </html>

@@ -55,6 +55,7 @@ public class QuizResultRepository implements ObjectRepository<QuizResult> {
 
   @Override
   public List<QuizResult> findAll() {
-    return null;
+    String query = "SELECT * FROM week3_quiz_result";
+    return jdbcTemplate.query(query, rowMapper);
   }
 }

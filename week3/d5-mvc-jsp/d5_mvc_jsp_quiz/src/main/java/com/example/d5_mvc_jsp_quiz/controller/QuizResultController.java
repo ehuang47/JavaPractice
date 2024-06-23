@@ -74,30 +74,26 @@ public class QuizResultController {
     model.addAttribute("quizDurationSeconds", duration.toSeconds());
 
     List<QuizResultChoice> savedChoiceList = quizResultChoiceService.findAllByQuizResultId(quizResultId);
+    Map<Long, Long> questionIdToSelectedChoiceId = new LinkedHashMap<>();
+    for (QuizResultChoice c : savedChoiceList) {
+      questionIdToSelectedChoiceId.put(c.getQuestionId(), c.getChoiceId());
+    }
+    model.addAttribute("questionIdToSelectedChoiceId", questionIdToSelectedChoiceId);
 
     List<Long> questionIdList = savedChoiceList.stream()
       .map(QuizResultChoice::getQuestionId)
       .collect(Collectors.toList());
     List<Question> questionList = questionService.findAllByQuestionIdListWithChoices(questionIdList);
     questionList = questionService.populateQuestionListChoices(questionList);
-    Map<Long, Long> questionIdToSelectedChoiceId = new LinkedHashMap<>();
-    for (QuizResultChoice c : savedChoiceList) {
-      questionIdToSelectedChoiceId.put(c.getQuestionId(), c.getChoiceId());
-    }
+    model.addAttribute("questionList", questionList);
 
     int scoreCount = 0;
-    // assume question list followed the order of ids from savedChoiceList
     for (Question q : questionList) {
       if (q.getCorrectChoiceId().equals(questionIdToSelectedChoiceId.get(q.getId()))) {
         scoreCount++;
       }
     }
-
-    System.out.println(questionList);
-    System.out.println(questionIdToSelectedChoiceId);
     model.addAttribute("result", scoreCount > 3 ? "Pass" : "Fail");
-    model.addAttribute("questionIdToSelectedChoiceId", questionIdToSelectedChoiceId);
-    model.addAttribute("questionList", questionList);
   }
 
   @GetMapping("/{id}")
