@@ -28,6 +28,17 @@ public class UserService implements ObjectService<User> {
     return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(EntityType.USER, id));
   }
 
+  public User findByUsernameOrEmail(String username, String email) {
+    return userRepository.findByUsernameOrEmail(username, email)
+      .orElseThrow(() -> new EntityNotFoundException(EntityType.USER,
+        username != null ? username : email));
+  }
+
+  public List<User> findAllByUsernameOrEmail(String username, String email) {
+    return userRepository.findAllByUsernameOrEmail(username, email);
+  }
+
+
   @Override
   public List<User> findAll() {
     return userRepository.findAll();

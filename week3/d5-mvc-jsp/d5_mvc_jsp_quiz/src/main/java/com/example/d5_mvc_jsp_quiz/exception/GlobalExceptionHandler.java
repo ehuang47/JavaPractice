@@ -9,8 +9,40 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
   @ExceptionHandler(EntityNotFoundException.class)
-  public ResponseEntity<?> handleQuizNotFoundException(EntityNotFoundException ex, WebRequest request) {
-    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), ex.getMessage(), request.getDescription(false));
+  public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex,
+                                                         WebRequest request) {
+    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(),
+      ex.getMessage(),
+      request.getDescription(false));
     return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
   }
+
+  @ExceptionHandler(InvalidArgumentException.class)
+  public ResponseEntity<?> handleInvalidArgumentException(InvalidArgumentException ex,
+                                                          WebRequest request) {
+    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
+      ex.getMessage(),
+      request.getDescription(false));
+    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(NoResultsException.class)
+  public ResponseEntity<?> handleNoResultsException(NoResultsException ex,
+                                                    WebRequest request) {
+    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NO_CONTENT.value(),
+      ex.getMessage(),
+      request.getDescription(false));
+    return new ResponseEntity<>(errorDetails, HttpStatus.NO_CONTENT);
+  }
+
+  @ExceptionHandler(InvalidCredentialsException.class)
+  public ResponseEntity<?> handleInvalidCredentialsException(InvalidCredentialsException ex,
+                                                             WebRequest request) {
+    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+      ex.getMessage(),
+      request.getDescription(false));
+    return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
+  }
+
+
 }

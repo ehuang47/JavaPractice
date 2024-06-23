@@ -4,26 +4,17 @@ import com.example.d5_mvc_jsp_quiz.domain.User;
 import com.example.d5_mvc_jsp_quiz.repository.ObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class UserRepository implements ObjectRepository<User> {
-  private static final List<User> users;
-  private static final User EMPTY_USER = new User(-1L, "", "", "", 0, "", "");
-
-  static {
-    users = new ArrayList<>();
-    for (Long i = 0L; i < 3; i++) {
-      users.add(new User(i, "user" + i, "pass" + i, String.format("user%s@t.com", i), 0, "user" + i, "lastName" + i));
-    }
-    users.add(new User(999L, "admin", "pass", "admin@t.com", 1, "admin", "istrator"));
-  }
-
   private JdbcTemplate jdbcTemplate;
   private UserRepositoryRowMapper rowMapper;
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -37,20 +28,68 @@ public class UserRepository implements ObjectRepository<User> {
 
   @Override
   public Long save(User user) {
-    return 1L;
+    String query = """
+      INSERT INTO week3_user (first_name, last_name, email, username, password) 
+      VALUES (:firstName, :lastName, :email, :username, :password )""";
+
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+      .addValue("firstName", user.getFirstName())
+      .addValue("lastName", user.getLastName())
+      .addValue("email", user.getEmail())
+      .addValue("username", user.getUsername())
+      .addValue("password", user.getPassword());
+
+    KeyHolder keyHolder = new GeneratedKeyHolder();
+    namedParameterJdbcTemplate.update(query, parameterSource, keyHolder, new String[]{"quiz_result_choice_id"});
+    return keyHolder.getKey().longValue();
   }
 
   @Override
   public Optional<User> findById(Long id) {
-    Optional<User> user = users.stream()
-      .filter(a -> a.getId().equals(id))
-      .findFirst();
+    String query = "SELECT * FROM week3_user WHERE user_id=:userId";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    parameterSource.addValue("userId", id);
+    User user = namedParameterJdbcTemplate.queryForObject(query, parameterSource, rowMapper);
+    return Optional.ofNullable(user);
+  }
 
-    return user;
+  public Optional<User> findByUsernameOrEmail(String username, String email) {
+    StringBuilder queryBuilder = new StringBuilder();
+    queryBuilder.append("SELECT * FROM week3_user WHERE ");
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+
+    if (username != null) {
+      queryBuilder.append("username=:username");
+//      System.out.println(queryBuilder.toString());
+      parameterSource.addValue("username", username);
+//      System.out.println(parameterSource);
+    } else if (email != null) {
+      queryBuilder.append("email=:email");
+      parameterSource.addValue("email", email);
+    }
+
+    User user = namedParameterJdbcTemplate.queryForObject(queryBuilder.toString(), parameterSource, rowMapper);
+    return Optional.ofNullable(user);
+  }
+
+  public List<User> findAllByUsernameOrEmail(String username, String email) {
+    StringBuilder queryBuilder = new StringBuilder("SELECT * FROM week3_user WHERE ");
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+
+    if (username != null) {
+      queryBuilder.append("username = :username");
+      parameterSource.addValue("username", username);
+    } else if (email != null) {
+      queryBuilder.append("email = :email");
+      parameterSource.addValue("email", email);
+    }
+
+    return namedParameterJdbcTemplate.query(queryBuilder.toString(), parameterSource, rowMapper);
   }
 
   @Override
   public List<User> findAll() {
-    return users;
+    String query = "SELECT * FROM week3_user";
+    return jdbcTemplate.query(query, rowMapper);
   }
 }

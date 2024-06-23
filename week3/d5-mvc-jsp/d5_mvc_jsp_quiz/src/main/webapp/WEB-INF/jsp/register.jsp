@@ -18,6 +18,14 @@
             <input type="text" name="email" id="email"/>
         </div>
         <div>
+            <label for="firstName">First Name</label>
+            <input type="text" name="firstName" id="firstName"/>
+        </div>
+        <div>
+            <label for="lastName">Last Name</label>
+            <input type="text" name="lastName" id="lastName"/>
+        </div>
+        <div>
             <label for="username">Username</label>
             <input type="text" name="username" id="username"/>
         </div>
