@@ -1,4 +1,6 @@
-package com.example.d5_mvc_jsp_quiz.exception;
+package com.example.d5_mvc_jsp_quiz.exception.type;
+
+import com.example.d5_mvc_jsp_quiz.exception.EntityType;
 
 public class NoResultsException extends RuntimeException {
   private static final String DEFAULT_MESSAGE = "No results were found for %s.";

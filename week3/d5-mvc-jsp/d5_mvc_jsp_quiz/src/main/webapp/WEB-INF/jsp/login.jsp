@@ -9,6 +9,12 @@
 <html>
 <head>
     <title>Login</title>
+    <% request.setAttribute("showLogout", false); %>
+    <% request.setAttribute("showLogin", false); %>
+    <% request.setAttribute("showHome", false); %>
+    <% request.setAttribute("showRegister", true); %>
+    <% request.setAttribute("showContactUs", true); %>
+    <%@include file="partials/header.jsp" %>
 </head>
 <body>
 <div>

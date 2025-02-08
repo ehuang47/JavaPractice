@@ -19,6 +19,6 @@ public class UserRepositoryRowMapper implements RowMapper<User> {
     user.setLastName(rs.getString("last_name"));
     user.setUsername(rs.getString("username"));
     user.setPassword(rs.getString("password"));
-    return null;
+    return user;
   }
 }

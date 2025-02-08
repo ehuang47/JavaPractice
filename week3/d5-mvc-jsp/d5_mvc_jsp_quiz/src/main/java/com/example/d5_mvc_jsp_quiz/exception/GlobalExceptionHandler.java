@@ -1,5 +1,9 @@
 package com.example.d5_mvc_jsp_quiz.exception;
 
+import com.example.d5_mvc_jsp_quiz.exception.type.EntityNotFoundException;
+import com.example.d5_mvc_jsp_quiz.exception.type.InvalidArgumentException;
+import com.example.d5_mvc_jsp_quiz.exception.type.InvalidCredentialsException;
+import com.example.d5_mvc_jsp_quiz.exception.type.NoResultsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

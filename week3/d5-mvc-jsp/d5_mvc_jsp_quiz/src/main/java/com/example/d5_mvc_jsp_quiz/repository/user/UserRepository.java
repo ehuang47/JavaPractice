@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -41,7 +42,7 @@ public class UserRepository implements ObjectRepository<User> {
 
     KeyHolder keyHolder = new GeneratedKeyHolder();
     namedParameterJdbcTemplate.update(query, parameterSource, keyHolder, new String[]{"quiz_result_choice_id"});
-    return keyHolder.getKey().longValue();
+    return Objects.requireNonNull(keyHolder.getKey()).longValue();
   }
 
   @Override
@@ -60,9 +61,7 @@ public class UserRepository implements ObjectRepository<User> {
 
     if (username != null) {
       queryBuilder.append("username=:username");
-//      System.out.println(queryBuilder.toString());
       parameterSource.addValue("username", username);
-//      System.out.println(parameterSource);
     } else if (email != null) {
       queryBuilder.append("email=:email");
       parameterSource.addValue("email", email);

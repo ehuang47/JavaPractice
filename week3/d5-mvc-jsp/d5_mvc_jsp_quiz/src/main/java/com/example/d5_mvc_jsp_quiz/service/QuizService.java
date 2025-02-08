@@ -2,8 +2,8 @@ package com.example.d5_mvc_jsp_quiz.service;
 
 import com.example.d5_mvc_jsp_quiz.domain.Question;
 import com.example.d5_mvc_jsp_quiz.domain.Quiz;
-import com.example.d5_mvc_jsp_quiz.exception.EntityNotFoundException;
 import com.example.d5_mvc_jsp_quiz.exception.EntityType;
+import com.example.d5_mvc_jsp_quiz.exception.type.EntityNotFoundException;
 import com.example.d5_mvc_jsp_quiz.repository.quiz.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

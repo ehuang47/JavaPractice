@@ -1,4 +1,4 @@
-package com.example.d5_mvc_jsp_quiz.exception;
+package com.example.d5_mvc_jsp_quiz.exception.type;
 
 public class InvalidCredentialsException extends RuntimeException {
   public InvalidCredentialsException(String message) {

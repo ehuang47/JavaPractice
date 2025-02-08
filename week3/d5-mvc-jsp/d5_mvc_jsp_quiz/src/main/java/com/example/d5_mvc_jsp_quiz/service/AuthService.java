@@ -1,9 +1,9 @@
 package com.example.d5_mvc_jsp_quiz.service;
 
 import com.example.d5_mvc_jsp_quiz.domain.User;
-import com.example.d5_mvc_jsp_quiz.exception.EntityNotFoundException;
-import com.example.d5_mvc_jsp_quiz.exception.InvalidArgumentException;
-import com.example.d5_mvc_jsp_quiz.exception.InvalidCredentialsException;
+import com.example.d5_mvc_jsp_quiz.exception.type.EntityNotFoundException;
+import com.example.d5_mvc_jsp_quiz.exception.type.InvalidArgumentException;
+import com.example.d5_mvc_jsp_quiz.exception.type.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

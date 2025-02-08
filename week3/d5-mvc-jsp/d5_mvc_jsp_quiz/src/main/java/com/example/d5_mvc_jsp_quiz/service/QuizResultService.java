@@ -2,9 +2,9 @@ package com.example.d5_mvc_jsp_quiz.service;
 
 import com.example.d5_mvc_jsp_quiz.domain.QuizResult;
 import com.example.d5_mvc_jsp_quiz.domain.QuizResultChoice;
-import com.example.d5_mvc_jsp_quiz.exception.EntityNotFoundException;
 import com.example.d5_mvc_jsp_quiz.exception.EntityType;
-import com.example.d5_mvc_jsp_quiz.exception.InvalidArgumentException;
+import com.example.d5_mvc_jsp_quiz.exception.type.EntityNotFoundException;
+import com.example.d5_mvc_jsp_quiz.exception.type.InvalidArgumentException;
 import com.example.d5_mvc_jsp_quiz.repository.quizResult.QuizResultChoiceRepository;
 import com.example.d5_mvc_jsp_quiz.repository.quizResult.QuizResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;

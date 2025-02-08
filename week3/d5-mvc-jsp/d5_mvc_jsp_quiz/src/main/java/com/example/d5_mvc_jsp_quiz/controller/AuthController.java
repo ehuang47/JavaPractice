@@ -27,7 +27,6 @@ public class AuthController {
   @PostMapping(value = "/login")
   public String login(@RequestParam Map<String, String> body) {
     System.out.println(body);
-    System.out.println(body.get("username"));
 
     User user = authService.validateLogin(body.get("username"), body.get("password"));
     System.out.println(user);

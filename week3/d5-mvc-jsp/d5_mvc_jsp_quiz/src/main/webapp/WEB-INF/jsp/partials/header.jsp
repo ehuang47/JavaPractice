@@ -15,27 +15,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<nav style="display: flex;">
-    <div>
-        <a href="/register">
-            <button>Register</button>
-        </a>
-    </div>
-    <div>
-        <a href="/login">
-            <button>Login/logout</button>
-        </a>
-    </div>
-    <div>
-        <a href="/home">
-            <button>Home</button>
-        </a>
-    </div>
-    <div>
-        <a href="/contact-us">
-            <button>Contact Us</button>
-        </a>
-    </div>
+<nav style="display: flex; border-bottom: 1px solid black; padding: 4px; width: 100%; justify-content: space-around">
+    <c:if test="${showHome}">
+        <div>
+            <a href="/home">
+                <button>Home</button>
+            </a>
+        </div>
+    </c:if>
+
+    <c:if test="${showContactUs}">
+        <div>
+            <a href="/contact-us">
+                <button>Contact Us</button>
+            </a>
+        </div>
+    </c:if>
+
+    <c:if test="${showRegister}">
+        <div>
+            <a href="/register">
+                <button>Register</button>
+            </a>
+        </div>
+    </c:if>
+
+    <c:if test="${showLogin}">
+        <div>
+            <a href="/login">
+                <button>Login</button>
+            </a>
+        </div>
+    </c:if>
+
+    <c:if test="${showLogout}">
+        <div>
+            <a href="/logout">
+                <button>Logout</button>
+            </a>
+        </div>
+    </c:if>
 </nav>
 </body>
 </html>
