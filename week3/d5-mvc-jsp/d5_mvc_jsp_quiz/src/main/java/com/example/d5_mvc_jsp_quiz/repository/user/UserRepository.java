@@ -60,10 +60,10 @@ public class UserRepository implements ObjectRepository<User> {
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
     if (username != null) {
-      queryBuilder.append("username=:username");
+      queryBuilder.append("username LIKE :username");
       parameterSource.addValue("username", username);
     } else if (email != null) {
-      queryBuilder.append("email=:email");
+      queryBuilder.append("email LIKE :email");
       parameterSource.addValue("email", email);
     }
 
@@ -76,10 +76,10 @@ public class UserRepository implements ObjectRepository<User> {
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
     if (username != null) {
-      queryBuilder.append("username = :username");
+      queryBuilder.append("username LIKE :username");
       parameterSource.addValue("username", username);
     } else if (email != null) {
-      queryBuilder.append("email = :email");
+      queryBuilder.append("email LIKE :email");
       parameterSource.addValue("email", email);
     }
 

@@ -10,11 +10,6 @@
 <html>
 <head>
     <title>Contact Us</title>
-<%--    conditionally show home/login/register if logged in --%>
-    <% request.setAttribute("showLogout", false); %>
-    <% request.setAttribute("showLogin", true); %>
-    <% request.setAttribute("showHome", true); %>
-    <% request.setAttribute("showRegister", true); %>
     <% request.setAttribute("showContactUs", false); %>
     <%@include file="partials/header.jsp" %>
 </head>

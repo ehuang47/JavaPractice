@@ -93,7 +93,8 @@ public class QuizResultController {
         scoreCount++;
       }
     }
-    model.addAttribute("result", scoreCount > 3 ? "Pass" : "Fail");
+    final int PASSING_SCORE = 3;
+    model.addAttribute("result", scoreCount > PASSING_SCORE ? "Pass" : "Fail");
   }
 
   @GetMapping("/{id}")
