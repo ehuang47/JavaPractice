@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/contact-us")
-public class ContactUsController {
+public class ContactUsController extends AbstractController  {
   @GetMapping(value = "") //localhost:8080/about
   public String aboutModelView(Model model, HttpServletRequest request) {
     HttpSession session = request.getSession(false);

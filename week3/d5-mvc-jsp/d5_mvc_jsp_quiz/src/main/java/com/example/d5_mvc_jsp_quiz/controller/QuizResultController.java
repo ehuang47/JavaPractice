@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/quiz-result")
-public class QuizResultController {
+public class QuizResultController extends AbstractController {
   private final QuizResultService quizResultService;
   private final QuizResultChoiceService quizResultChoiceService;
   private final QuizService quizService;

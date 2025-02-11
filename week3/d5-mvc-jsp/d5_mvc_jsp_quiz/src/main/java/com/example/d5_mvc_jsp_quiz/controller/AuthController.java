@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
 
 @Controller
-public class AuthController {
+public class AuthController extends AbstractController {
   private final AuthService authService;
 
   @Autowired

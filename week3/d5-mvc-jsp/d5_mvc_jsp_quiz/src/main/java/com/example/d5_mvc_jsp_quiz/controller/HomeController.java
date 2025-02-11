@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/home")
-public class HomeController {
+public class HomeController extends AbstractController {
   private final QuizService quizService;
   private final QuizResultService quizResultService;
 

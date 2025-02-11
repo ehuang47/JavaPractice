@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/quiz")
-public class QuizController {
+public class QuizController extends AbstractController {
   private final QuizService quizService;
 
   @Autowired
