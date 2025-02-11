@@ -18,5 +18,6 @@ public class QuizResult {
   private Long quizId;
   private String dateStarted;
   private String dateSubmitted;
+  private Long userId;
   private List<QuizResultChoice> quizResultChoiceList;
 }

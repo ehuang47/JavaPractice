@@ -3,6 +3,7 @@ package com.example.d5_mvc_jsp_quiz.exception;
 import com.example.d5_mvc_jsp_quiz.exception.type.EntityNotFoundException;
 import com.example.d5_mvc_jsp_quiz.exception.type.InvalidArgumentException;
 import com.example.d5_mvc_jsp_quiz.exception.type.InvalidCredentialsException;
+import com.example.d5_mvc_jsp_quiz.exception.type.MethodNotAllowedException;
 import com.example.d5_mvc_jsp_quiz.exception.type.NoResultsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,5 +49,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
   }
 
+  @ExceptionHandler(MethodNotAllowedException.class)
+  public ResponseEntity<?> handleMethodNotAllowedException(MethodNotAllowedException ex,
+                                                             WebRequest request) {
+    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.METHOD_NOT_ALLOWED.value(),
+      ex.getMessage(),
+      request.getDescription(false));
+    return new ResponseEntity<>(errorDetails, HttpStatus.METHOD_NOT_ALLOWED);
+  }
 
 }

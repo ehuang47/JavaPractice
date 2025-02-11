@@ -1,7 +1,7 @@
 package com.example.d5_mvc_jsp_quiz.repository.quiz;
 
 import com.example.d5_mvc_jsp_quiz.domain.Quiz;
-import com.example.d5_mvc_jsp_quiz.repository.ObjectRepository;
+import com.example.d5_mvc_jsp_quiz.repository.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class QuizRepository implements ObjectRepository<Quiz> {
+public class QuizRepository implements EntityRepository<Quiz, Long> {
   private JdbcTemplate jdbcTemplate;
   private QuizRepositoryRowMapper rowMapper;
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -22,11 +22,6 @@ public class QuizRepository implements ObjectRepository<Quiz> {
     this.jdbcTemplate = jdbcTemplate;
     this.rowMapper = rowMapper;
     this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-  }
-
-  @Override
-  public Long save(Quiz quiz) {
-    return 1L;
   }
 
   @Override

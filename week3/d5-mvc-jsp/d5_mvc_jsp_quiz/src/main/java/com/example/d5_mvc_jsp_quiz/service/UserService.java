@@ -10,22 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserService implements ObjectService<User> {
+public class UserService extends EntityService<User, Long> {
   private final UserRepository userRepository;
 
   @Autowired
   public UserService(UserRepository userRepository) {
+    super(userRepository);
     this.userRepository = userRepository;
-  }
-
-  @Override
-  public Long save(User user) {
-    return userRepository.save(user);
-  }
-
-  @Override
-  public User findById(Long id) {
-    return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(EntityType.USER, id));
   }
 
   public User findByUsernameOrEmail(String username, String email) {
@@ -36,11 +27,5 @@ public class UserService implements ObjectService<User> {
 
   public List<User> findAllByUsernameOrEmail(String username, String email) {
     return userRepository.findAllByUsernameOrEmail(username, email);
-  }
-
-
-  @Override
-  public List<User> findAll() {
-    return userRepository.findAll();
   }
 }

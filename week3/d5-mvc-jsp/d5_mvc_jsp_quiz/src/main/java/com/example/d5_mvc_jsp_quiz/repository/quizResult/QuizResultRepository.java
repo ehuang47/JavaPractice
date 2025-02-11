@@ -1,7 +1,7 @@
 package com.example.d5_mvc_jsp_quiz.repository.quizResult;
 
 import com.example.d5_mvc_jsp_quiz.domain.QuizResult;
-import com.example.d5_mvc_jsp_quiz.repository.ObjectRepository;
+import com.example.d5_mvc_jsp_quiz.repository.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,10 +11,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class QuizResultRepository implements ObjectRepository<QuizResult> {
+public class QuizResultRepository implements EntityRepository<QuizResult, Long> {
   private JdbcTemplate jdbcTemplate;
   private QuizResultRepositoryRowMapper rowMapper;
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -57,5 +58,14 @@ public class QuizResultRepository implements ObjectRepository<QuizResult> {
   public List<QuizResult> findAll() {
     String query = "SELECT * FROM week3_quiz_result";
     return jdbcTemplate.query(query, rowMapper);
+  }
+
+  @Override
+  public List<QuizResult> findAll(Map<String, Object> filters) {
+    String userId = (String) filters.get("userId");
+    String query = "SELECT * FROM week3_quiz_result WHERE user_id = :userId";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+      .addValue("userId", userId);
+    return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
   }
 }

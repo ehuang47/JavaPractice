@@ -1,7 +1,7 @@
 package com.example.d5_mvc_jsp_quiz.repository.question;
 
 import com.example.d5_mvc_jsp_quiz.domain.Question;
-import com.example.d5_mvc_jsp_quiz.repository.ObjectRepository;
+import com.example.d5_mvc_jsp_quiz.repository.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -9,14 +9,16 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class QuestionRepository implements ObjectRepository<Question> {
+public class QuestionRepository implements EntityRepository<Question, Long> {
   private JdbcTemplate jdbcTemplate;
   private QuestionRepositoryRowMapper rowMapper;
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+  {}
   @Autowired
   public QuestionRepository(JdbcTemplate jdbcTemplate,
                             QuestionRepositoryRowMapper rowMapper,
@@ -24,11 +26,6 @@ public class QuestionRepository implements ObjectRepository<Question> {
     this.jdbcTemplate = jdbcTemplate;
     this.rowMapper = rowMapper;
     this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-  }
-
-  @Override
-  public Long save(Question question) {
-    return 1L;
   }
 
   @Override
@@ -56,8 +53,24 @@ public class QuestionRepository implements ObjectRepository<Question> {
     return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
   }
 
+  //  todo: switch to using common findall
   @Override
   public List<Question> findAll() {
-    return null;
+    String query = "SELECT * FROM week3_question";
+    return jdbcTemplate.query(query, rowMapper);
+  }
+//  todo: fix findall dynamic filtering query
+  @Override
+  public List<Question> findAll(Map<String, Object> filters) {
+    Long quizId = (Long) filters.get("quizId");
+    @SuppressWarnings("unchecked")
+    List<Long> questionIdList = (List<Long>) filters.get("questionIdList");
+    String query = """
+      SELECT * FROM week3_question 
+      WHERE question_id IN (:questionIdList)
+      AND quiz_id = :quizId""";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+      .addValue("questionIdList", questionIdList);
+    return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
   }
 }

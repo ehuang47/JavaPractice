@@ -1,7 +1,7 @@
 package com.example.d5_mvc_jsp_quiz.repository.user;
 
 import com.example.d5_mvc_jsp_quiz.domain.User;
-import com.example.d5_mvc_jsp_quiz.repository.ObjectRepository;
+import com.example.d5_mvc_jsp_quiz.repository.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public class UserRepository implements ObjectRepository<User> {
+public class UserRepository implements EntityRepository<User, Long> {
   private JdbcTemplate jdbcTemplate;
   private UserRepositoryRowMapper rowMapper;
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;

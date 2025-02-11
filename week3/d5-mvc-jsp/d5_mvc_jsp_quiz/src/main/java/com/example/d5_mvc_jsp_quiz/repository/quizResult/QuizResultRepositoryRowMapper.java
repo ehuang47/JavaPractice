@@ -13,6 +13,7 @@ public class QuizResultRepositoryRowMapper implements RowMapper<QuizResult> {
       resultSet.getLong("quiz_id"),
       resultSet.getString("date_started"),
       resultSet.getString("date_submitted"),
+      resultSet.getLong("user_id"),
       null
     );
   }

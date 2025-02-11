@@ -2,8 +2,6 @@ package com.example.d5_mvc_jsp_quiz.service;
 
 import com.example.d5_mvc_jsp_quiz.domain.QuizResult;
 import com.example.d5_mvc_jsp_quiz.domain.QuizResultChoice;
-import com.example.d5_mvc_jsp_quiz.exception.EntityType;
-import com.example.d5_mvc_jsp_quiz.exception.type.EntityNotFoundException;
 import com.example.d5_mvc_jsp_quiz.exception.type.InvalidArgumentException;
 import com.example.d5_mvc_jsp_quiz.repository.quizResult.QuizResultChoiceRepository;
 import com.example.d5_mvc_jsp_quiz.repository.quizResult.QuizResultRepository;
@@ -18,37 +16,34 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class QuizResultService implements ObjectService<QuizResult> {
-  private final QuizResultRepository quizResultRepository;
+public class QuizResultService extends EntityService<QuizResult, Long> {
   private final QuizResultChoiceRepository quizResultChoiceRepository;
-  private final String DATE_STARTED = "dateStarted";
-  private final String QUIZ_ID = "quizId";
 
   @Autowired
   public QuizResultService(QuizResultRepository quizResultRepository,
                            QuizResultChoiceRepository quizResultChoiceRepository) {
-    this.quizResultRepository = quizResultRepository;
+    super(quizResultRepository);
     this.quizResultChoiceRepository = quizResultChoiceRepository;
   }
 
   @Override
   public Long save(QuizResult quizResult) {
-    // how would @Valid help here?
-    Long quizResultId = quizResultRepository.save(quizResult);
-//    System.out.println(quizResultId);
-    List<Long> quizResultChoiceIdList = quizResultChoiceRepository
-      .batchSave(quizResultId, quizResult.getQuizResultChoiceList());
-//    System.out.println(quizResultChoiceIdList);
+    // TODO: how would @Valid help here?
+    Long quizResultId = super.save(quizResult);
+    quizResultChoiceRepository.batchSave(quizResultId, quizResult.getQuizResultChoiceList());
     return quizResultId;
   }
 
-  public QuizResult bodyMapper(Map<String, String> body) {
+  public QuizResult bodyMapper(Map<String, String> body, Long userId) {
     if (body.size() != 12) {
       throw new InvalidArgumentException("Missing required answers for all choices.");
     }
 
     QuizResult submission = new QuizResult();
+    submission.setUserId(userId);
+    String QUIZ_ID = "quizId";
     submission.setQuizId(Long.valueOf(body.get(QUIZ_ID)));
+    String DATE_STARTED = "dateStarted";
     submission.setDateStarted(body.get(DATE_STARTED));
     String dateSubmitted = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
     submission.setDateSubmitted(dateSubmitted);
@@ -70,16 +65,5 @@ public class QuizResultService implements ObjectService<QuizResult> {
     submission.setQuizResultChoiceList(choiceList);
 
     return submission;
-  }
-
-  @Override
-  public QuizResult findById(Long id) {
-    return quizResultRepository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException(EntityType.QUIZ_RESULT, id));
-  }
-
-  @Override
-  public List<QuizResult> findAll() {
-    return quizResultRepository.findAll();
   }
 }

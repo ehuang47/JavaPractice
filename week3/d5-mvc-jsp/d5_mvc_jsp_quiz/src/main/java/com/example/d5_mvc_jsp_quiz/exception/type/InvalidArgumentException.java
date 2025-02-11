@@ -4,4 +4,5 @@ public class InvalidArgumentException extends RuntimeException {
   public InvalidArgumentException(String message) {
     super(String.format("INVALID ARGUMENT: %s", message));
   }
+
 }

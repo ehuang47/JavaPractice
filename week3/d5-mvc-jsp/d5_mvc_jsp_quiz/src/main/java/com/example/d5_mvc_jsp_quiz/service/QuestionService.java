@@ -15,25 +15,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class QuestionService implements ObjectService<Question> {
+public class QuestionService extends EntityService<Question, Long> {
   private final QuestionRepository questionRepository;
   private final ChoiceService choiceService;
 
   @Autowired
   public QuestionService(QuestionRepository questionRepository,
                          ChoiceService choiceService) {
+    super(questionRepository);
     this.questionRepository = questionRepository;
     this.choiceService = choiceService;
-  }
-
-  @Override
-  public Long save(Question question) {
-    return null;
-  }
-
-  @Override
-  public Question findById(Long id) {
-    return null;
   }
 
   public List<Question> findAllByQuestionIdListWithChoices(List<Long> questionIdList) {
@@ -64,10 +55,5 @@ public class QuestionService implements ObjectService<Question> {
     }
 
     return questionList;
-  }
-
-  @Override
-  public List<Question> findAll() {
-    return null;
   }
 }

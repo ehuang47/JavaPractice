@@ -8,27 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class QuizResultChoiceService implements ObjectService<QuizResultChoice> {
+public class QuizResultChoiceService extends EntityService<QuizResultChoice, Long> {
   private final QuizResultChoiceRepository quizResultChoiceRepository;
 
   @Autowired
   public QuizResultChoiceService(QuizResultChoiceRepository quizResultChoiceRepository) {
+    super(quizResultChoiceRepository);
     this.quizResultChoiceRepository = quizResultChoiceRepository;
-  }
-
-  @Override
-  public Long save(QuizResultChoice quizResultChoice) {
-    return null;
-  }
-
-  @Override
-  public QuizResultChoice findById(Long id) {
-    return null;
-  }
-
-  @Override
-  public List<QuizResultChoice> findAll() {
-    return null;
   }
 
   public List<QuizResultChoice> findAllByQuizResultId(Long id) {

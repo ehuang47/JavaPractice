@@ -8,6 +8,8 @@ import com.example.d5_mvc_jsp_quiz.service.QuestionService;
 import com.example.d5_mvc_jsp_quiz.service.QuizResultChoiceService;
 import com.example.d5_mvc_jsp_quiz.service.QuizResultService;
 import com.example.d5_mvc_jsp_quiz.service.QuizService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,8 +100,14 @@ public class QuizResultController {
   }
 
   @GetMapping("/{id}")
-  public String getQuizResult(@PathVariable("id") Long id, Model model) {
+  public String getQuizResult(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
     QuizResult savedQuizResult = quizResultService.findById(id);
+    HttpSession session = request.getSession(false);
+
+//    Users can only view their own quiz result details
+    if (session != null && session.getAttribute("userId") != savedQuizResult.getUserId()) {
+      return "redirect:/home";
+    }
     Quiz quiz = quizService.findById(savedQuizResult.getQuizId());
     model.addAttribute("quizCategory", quiz.getCategory());
     buildQuizResult(savedQuizResult, quizResultChoiceService, questionService, id, model);
@@ -108,8 +116,12 @@ public class QuizResultController {
   }
 
   @PostMapping("")
-  public String submitQuiz(@RequestParam Map<String, String> body, Model model) {
-    QuizResult submission = quizResultService.bodyMapper(body);
+  public String submitQuiz(@RequestParam Map<String, String> body, Model model, HttpServletRequest request) {
+//    TODO: this should only execute if user is logged in, so i shouldn't need to check session null
+    HttpSession session = request.getSession(false);
+    Long userId = (Long) session.getAttribute("userId");
+//    int userRole = (int) session.getAttribute("userRole");
+    QuizResult submission = quizResultService.bodyMapper(body, userId);
     Quiz quiz = quizService.findById(submission.getQuizId());
     model.addAttribute("quizCategory", quiz.getCategory());
 
@@ -117,8 +129,6 @@ public class QuizResultController {
     QuizResult savedQuizResult = quizResultService.findById(quizResultId);
     buildQuizResult(savedQuizResult, quizResultChoiceService, questionService, quizResultId, model);
 
-//    System.out.println(savedChoiceList);
-//    System.out.println(questionIdToQuestion.get(savedChoiceList.get(0).getQuestionId()));
     return "quiz-result";
   }
 }

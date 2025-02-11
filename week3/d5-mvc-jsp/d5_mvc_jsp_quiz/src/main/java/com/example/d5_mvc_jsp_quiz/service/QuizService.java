@@ -11,30 +11,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class QuizService implements ObjectService<Quiz> {
+public class QuizService extends EntityService<Quiz,Long> {
   private final QuizRepository quizRepository;
   private final QuestionService questionService;
-  private final ChoiceService choiceService;
 
   @Autowired
   public QuizService(QuizRepository quizRepository,
-                     QuestionService questionService,
-                     ChoiceService choiceService) {
+                     QuestionService questionService) {
+    super(quizRepository);
     this.quizRepository = quizRepository;
     this.questionService = questionService;
-    this.choiceService = choiceService;
   }
 
-  @Override
-  public Long save(Quiz quiz) {
-    return quizRepository.save(quiz);
-  }
-
-  @Override
-  public Quiz findById(Long id) {
-    return quizRepository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException(EntityType.QUIZ, id));
-  }
 
   public Quiz findByIdWithLimitQuestionsAndChoices(Long id, int questionCount) {
     Quiz quiz = quizRepository.findById(id)
@@ -46,10 +34,5 @@ public class QuizService implements ObjectService<Quiz> {
     quiz.setQuestionList(questionList);
 
     return quiz;
-  }
-
-  @Override
-  public List<Quiz> findAll() {
-    return quizRepository.findAll();
   }
 }
