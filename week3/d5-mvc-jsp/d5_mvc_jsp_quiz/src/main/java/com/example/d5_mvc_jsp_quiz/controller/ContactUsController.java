@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/contact-us")
 public class ContactUsController extends AbstractController  {
-  @GetMapping(value = "") //localhost:8080/about
+  @GetMapping(value = "") //localhost:8080/contact-us
   public String aboutModelView(Model model, HttpServletRequest request) {
     HttpSession session = request.getSession(false);
     
-    boolean isLoggedIn = session != null;
+    boolean isLoggedIn = session != null && session.getAttribute("userId") != null;
     
     model.addAttribute("showHome", isLoggedIn);
     model.addAttribute("showLogout", isLoggedIn);

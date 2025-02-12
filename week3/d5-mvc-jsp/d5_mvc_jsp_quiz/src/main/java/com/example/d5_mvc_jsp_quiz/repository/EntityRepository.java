@@ -1,7 +1,6 @@
 package com.example.d5_mvc_jsp_quiz.repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface EntityRepository<E, ID> {
@@ -12,10 +11,4 @@ public interface EntityRepository<E, ID> {
   default public List<E> findAll() {
     return null;
   }
-
-  default public List<E> findAll(Map<String, Object> filters) {
-    return null;
-  }
-//  public E findByName(String name);
-//  public E delete(int id);
 }

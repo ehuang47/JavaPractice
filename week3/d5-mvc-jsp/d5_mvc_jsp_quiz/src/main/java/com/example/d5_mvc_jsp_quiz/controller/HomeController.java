@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +38,7 @@ public class HomeController extends AbstractController {
     List<Quiz> quizList = quizService.findAll();
     model.addAttribute("quizList", quizList);
 
-    Map<String, Object> filters = new HashMap<>();
-    filters.put("userId", userId);
-    List<QuizResult> quizResultList = quizResultService.findAll(filters);
+    List<QuizResult> quizResultList = quizResultService.findAllByUserId(userId);
     model.addAttribute("quizResultList", quizResultList);
 
     Map<Long, String> quizIdToCategory = new LinkedHashMap<>();

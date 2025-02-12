@@ -11,7 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -32,17 +32,18 @@ public class QuizResultRepository implements EntityRepository<QuizResult, Long> 
   @Override
   public Long save(QuizResult quizResult) {
     String query = """
-      INSERT INTO week3_quiz_result (quiz_id, date_started, date_submitted) VALUES 
-      (:quizId, :dateStarted, :dateSubmitted )""";
+      INSERT INTO week3_quiz_result (quiz_id, date_started, date_submitted, user_id) VALUES 
+      (:quizId, :dateStarted, :dateSubmitted, :userId )""";
 
     MapSqlParameterSource parameterSource = new MapSqlParameterSource()
       .addValue("quizId", quizResult.getQuizId())
       .addValue("dateStarted", quizResult.getDateStarted())
-      .addValue("dateSubmitted", quizResult.getDateSubmitted());
+      .addValue("dateSubmitted", quizResult.getDateSubmitted())
+      .addValue("userId", quizResult.getUserId());
 
     KeyHolder keyHolder = new GeneratedKeyHolder();
     namedParameterJdbcTemplate.update(query, parameterSource, keyHolder, new String[]{"quiz_result_id"});
-    return keyHolder.getKey().longValue();
+    return Objects.requireNonNull(keyHolder.getKey()).longValue();
   }
 
   @Override
@@ -54,15 +55,7 @@ public class QuizResultRepository implements EntityRepository<QuizResult, Long> 
     return Optional.ofNullable(quizResult);
   }
 
-  @Override
-  public List<QuizResult> findAll() {
-    String query = "SELECT * FROM week3_quiz_result";
-    return jdbcTemplate.query(query, rowMapper);
-  }
-
-  @Override
-  public List<QuizResult> findAll(Map<String, Object> filters) {
-    String userId = (String) filters.get("userId");
+  public List<QuizResult> findAllByUserId(Long userId) {
     String query = "SELECT * FROM week3_quiz_result WHERE user_id = :userId";
     MapSqlParameterSource parameterSource = new MapSqlParameterSource()
       .addValue("userId", userId);

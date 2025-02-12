@@ -26,27 +26,6 @@ public class ChoiceService extends EntityService<Choice, Long> {
   public Map<Long, List<Choice>> findAllByQuestionList(List<Question> questionList, int questionCount) {
     List<Long> idList = questionList.stream().map(Question::getId).toList();
     List<Choice> choiceList = choiceRepository.findAllByQuestionList(idList);
-    /*
-    Object questionIdsObj = filters.get("questionIdList");
-    if (questionIdsObj instanceof List<?> questionIdsList) {
-      if (!questionIdsList.isEmpty() && questionIdsList.get(0) instanceof Long) {
-        @SuppressWarnings("unchecked")
-        List<Long> questionIds = (List<Long>) questionIdsList;
-      }
-    }
-
-    public List<User> findAll(Map<String, Object> filters) {
-    StringBuilder query = new StringBuilder("SELECT * FROM users WHERE 1=1");
-    MapSqlParameterSource parameters = new MapSqlParameterSource();
-
-    filters.forEach((key, value) -> {
-        query.append(" AND ").append(key).append(" = :").append(key);
-        parameters.addValue(key, value);
-    });
-
-    return namedParameterJdbcTemplate.query(query.toString(), parameters, userRowMapper);
-}
-     */
 
     if (choiceList.isEmpty()) {
       throw new NoResultsException(EntityType.CHOICE, "Question is not finalized.");

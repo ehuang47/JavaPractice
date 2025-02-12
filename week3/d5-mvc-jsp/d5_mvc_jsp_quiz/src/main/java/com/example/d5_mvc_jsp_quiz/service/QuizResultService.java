@@ -17,18 +17,19 @@ import java.util.Map;
 
 @Service
 public class QuizResultService extends EntityService<QuizResult, Long> {
+  private final QuizResultRepository quizResultRepository;
   private final QuizResultChoiceRepository quizResultChoiceRepository;
 
   @Autowired
   public QuizResultService(QuizResultRepository quizResultRepository,
                            QuizResultChoiceRepository quizResultChoiceRepository) {
     super(quizResultRepository);
+    this.quizResultRepository = quizResultRepository;
     this.quizResultChoiceRepository = quizResultChoiceRepository;
   }
 
   @Override
   public Long save(QuizResult quizResult) {
-    // TODO: how would @Valid help here?
     Long quizResultId = super.save(quizResult);
     quizResultChoiceRepository.batchSave(quizResultId, quizResult.getQuizResultChoiceList());
     return quizResultId;
@@ -65,5 +66,9 @@ public class QuizResultService extends EntityService<QuizResult, Long> {
     submission.setQuizResultChoiceList(choiceList);
 
     return submission;
+  }
+
+  public List<QuizResult> findAllByUserId(Long userId) {
+    return quizResultRepository.findAllByUserId(userId);
   }
 }

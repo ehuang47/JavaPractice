@@ -63,8 +63,6 @@ public class QuizResultController extends AbstractController {
   }
 
   private void buildQuizResult(QuizResult savedQuizResult,
-                               QuizResultChoiceService quizResultChoiceService,
-                               QuestionService questionService,
                                Long quizResultId,
                                Model model) {
     ZonedDateTime start = Instant.parse(savedQuizResult.getDateStarted()).atZone(ZoneId.of("UTC"));
@@ -104,20 +102,19 @@ public class QuizResultController extends AbstractController {
     QuizResult savedQuizResult = quizResultService.findById(id);
     HttpSession session = request.getSession(false);
 
-//    Users can only view their own quiz result details
-    if (session != null && session.getAttribute("userId") != savedQuizResult.getUserId()) {
+    //    Users can only view their own quiz result details
+    if (session.getAttribute("userId") != savedQuizResult.getUserId()) {
       return "redirect:/home";
     }
     Quiz quiz = quizService.findById(savedQuizResult.getQuizId());
     model.addAttribute("quizCategory", quiz.getCategory());
-    buildQuizResult(savedQuizResult, quizResultChoiceService, questionService, id, model);
+    buildQuizResult(savedQuizResult, id, model);
 
     return "quiz-result";
   }
 
   @PostMapping("")
   public String submitQuiz(@RequestParam Map<String, String> body, Model model, HttpServletRequest request) {
-//    TODO: this should only execute if user is logged in, so i shouldn't need to check session null
     HttpSession session = request.getSession(false);
     Long userId = (Long) session.getAttribute("userId");
 //    int userRole = (int) session.getAttribute("userRole");
@@ -127,7 +124,7 @@ public class QuizResultController extends AbstractController {
 
     Long quizResultId = quizResultService.save(submission);
     QuizResult savedQuizResult = quizResultService.findById(quizResultId);
-    buildQuizResult(savedQuizResult, quizResultChoiceService, questionService, quizResultId, model);
+    buildQuizResult(savedQuizResult, quizResultId, model);
 
     return "quiz-result";
   }

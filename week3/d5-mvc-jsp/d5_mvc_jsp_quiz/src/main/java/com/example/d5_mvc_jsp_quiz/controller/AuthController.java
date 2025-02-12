@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
 
 @Controller
-public class AuthController extends AbstractController {
+public class AuthController {
   private final AuthService authService;
 
   @Autowired
@@ -23,12 +23,6 @@ public class AuthController extends AbstractController {
 
   @GetMapping(value = "/login") //localhost:8080/user
   public String getLoginView(HttpServletRequest request) {
-    HttpSession session = request.getSession(false);
-
-    if (session != null && session.getAttribute("user") != null){
-      return "redirect:/home";
-    }
-
     return "login";
   }
 

@@ -4,7 +4,6 @@ import com.example.d5_mvc_jsp_quiz.exception.type.EntityNotFoundException;
 import com.example.d5_mvc_jsp_quiz.repository.EntityRepository;
 
 import java.util.List;
-import java.util.Map;
 
 public abstract class EntityService<E,ID> {
   protected final EntityRepository<E, ID> repository;
@@ -24,7 +23,4 @@ public abstract class EntityService<E,ID> {
   public List<E> findAll(){
     return repository.findAll();
   }
-  public List<E> findAll(Map<String, Object> filters) {
-    return repository.findAll(filters);
-  };
 }

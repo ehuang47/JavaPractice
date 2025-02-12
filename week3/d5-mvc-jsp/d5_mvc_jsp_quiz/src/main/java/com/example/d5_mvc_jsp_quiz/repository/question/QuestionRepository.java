@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -53,24 +52,4 @@ public class QuestionRepository implements EntityRepository<Question, Long> {
     return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
   }
 
-  //  todo: switch to using common findall
-  @Override
-  public List<Question> findAll() {
-    String query = "SELECT * FROM week3_question";
-    return jdbcTemplate.query(query, rowMapper);
-  }
-//  todo: fix findall dynamic filtering query
-  @Override
-  public List<Question> findAll(Map<String, Object> filters) {
-    Long quizId = (Long) filters.get("quizId");
-    @SuppressWarnings("unchecked")
-    List<Long> questionIdList = (List<Long>) filters.get("questionIdList");
-    String query = """
-      SELECT * FROM week3_question 
-      WHERE question_id IN (:questionIdList)
-      AND quiz_id = :quizId""";
-    MapSqlParameterSource parameterSource = new MapSqlParameterSource()
-      .addValue("questionIdList", questionIdList);
-    return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
-  }
 }
