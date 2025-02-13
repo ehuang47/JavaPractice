@@ -9,11 +9,7 @@
 <html>
 <head>
     <title>${quizCategory} Quiz Results</title>
-    <% request.setAttribute("showLogout", true); %>
-    <% request.setAttribute("showLogin", false); %>
-    <% request.setAttribute("showHome", true); %>
-    <% request.setAttribute("showRegister", false); %>
-    <% request.setAttribute("showContactUs", true); %>
+    <% request.setAttribute("userRole", 0); %>
     <%@include file="partials/header.jsp" %>
 </head>
 <body>

@@ -44,7 +44,7 @@ public class AuthFilter extends OncePerRequestFilter {
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
     final String path = request.getRequestURI();
-    // path can be: /WEB-INF/jsp/contact-us.jsp
-    return path.contains("/contact-us");
+    // path may have prefix /WEB-INF/jsp
+    return path.contains("/contact-us") && !path.contains("/management");
   }
 }

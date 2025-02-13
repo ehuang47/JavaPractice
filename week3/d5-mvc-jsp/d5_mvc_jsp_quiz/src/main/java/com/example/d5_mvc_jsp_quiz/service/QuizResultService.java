@@ -5,12 +5,10 @@ import com.example.d5_mvc_jsp_quiz.domain.QuizResultChoice;
 import com.example.d5_mvc_jsp_quiz.exception.type.InvalidArgumentException;
 import com.example.d5_mvc_jsp_quiz.repository.quizResult.QuizResultChoiceRepository;
 import com.example.d5_mvc_jsp_quiz.repository.quizResult.QuizResultRepository;
+import com.example.d5_mvc_jsp_quiz.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +44,7 @@ public class QuizResultService extends EntityService<QuizResult, Long> {
     submission.setQuizId(Long.valueOf(body.get(QUIZ_ID)));
     String DATE_STARTED = "dateStarted";
     submission.setDateStarted(body.get(DATE_STARTED));
-    String dateSubmitted = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+    String dateSubmitted = TimeUtils.getCurrentTimestamp();
     submission.setDateSubmitted(dateSubmitted);
 
     List<QuizResultChoice> choiceList = new ArrayList<QuizResultChoice>();

@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>${quiz.category} Quiz</title>
+    <% request.setAttribute("userRole", 0); %>
     <%@include file="partials/header.jsp" %>
 </head>
 <body>

@@ -4,6 +4,7 @@ import com.example.d5_mvc_jsp_quiz.domain.Quiz;
 import com.example.d5_mvc_jsp_quiz.domain.QuizResult;
 import com.example.d5_mvc_jsp_quiz.service.QuizResultService;
 import com.example.d5_mvc_jsp_quiz.service.QuizService;
+import com.example.d5_mvc_jsp_quiz.utils.UserRole;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,12 @@ public class HomeController extends AbstractController {
     this.quizResultService = quizResultService;
   }
 
-  @GetMapping("")
+  @GetMapping
   public String getHomeView(Model model, HttpServletRequest request) {
     HttpSession session = request.getSession(false);
-    if (session == null) {
-      return "redirect:/login";
+    int userRole = (int) session.getAttribute("userRole");
+    if (userRole == UserRole.ADMIN.getValue()) {
+      return "admin/home";
     }
     Long userId = (Long) session.getAttribute("userId");
     List<Quiz> quizList = quizService.findAll();

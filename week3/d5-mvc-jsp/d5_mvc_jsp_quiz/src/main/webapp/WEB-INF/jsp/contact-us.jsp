@@ -10,7 +10,6 @@
 <html>
 <head>
     <title>Contact Us</title>
-    <% request.setAttribute("showContactUs", false); %>
     <%@include file="partials/header.jsp" %>
 </head>
 <body>

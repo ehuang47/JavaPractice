@@ -16,7 +16,7 @@
 </head>
 <body>
 <nav style="display: flex; border-bottom: 1px solid black; padding: 4px; width: 100%; justify-content: space-around">
-    <c:if test="${showHome}">
+    <c:if test="${userRole == 0}">
         <div>
             <a href="/home">
                 <button>Home</button>
@@ -24,7 +24,7 @@
         </div>
     </c:if>
 
-    <c:if test="${showContactUs}">
+    <c:if test="${userRole != 1}">
         <div>
             <a href="/contact-us">
                 <button>Contact Us</button>
@@ -32,15 +32,13 @@
         </div>
     </c:if>
 
-    <c:if test="${showRegister}">
+    <c:if test="${userRole == null}">
         <div>
             <a href="/register">
                 <button>Register</button>
             </a>
         </div>
-    </c:if>
 
-    <c:if test="${showLogin}">
         <div>
             <a href="/login">
                 <button>Login</button>
@@ -48,7 +46,7 @@
         </div>
     </c:if>
 
-    <c:if test="${showLogout}">
+    <c:if test="${userRole != null}">
         <div>
             <a href="/logout">
                 <button>Logout</button>

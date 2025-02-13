@@ -35,7 +35,6 @@ public class ChoiceRepository implements EntityRepository<Choice, Long> {
     return Optional.ofNullable(choice);
   }
 
-//  todo: switch to using common findall
   public List<Choice> findAllByQuestionList(List<Long> questionIdList) {
     String query = """
       SELECT * FROM week3_choice 
@@ -45,11 +44,4 @@ public class ChoiceRepository implements EntityRepository<Choice, Long> {
     parameterSource.addValue("questionIdList", questionIdList);
     return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
   }
-
-  @Override
-  public List<Choice> findAll(){
-    String query = "SELECT * FROM week3_choice";
-    return jdbcTemplate.query(query, rowMapper);
-  }
-
 }
