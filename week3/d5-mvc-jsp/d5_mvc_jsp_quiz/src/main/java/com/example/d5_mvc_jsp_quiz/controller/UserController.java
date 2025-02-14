@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -30,8 +30,8 @@ public class UserController extends AbstractController {
   }
 
   @PatchMapping("/management")
-  public String updateActiveStatus(@RequestParam Map<String,String> body) {
-    String active = body.get("active");
+  public String updateActiveStatus(@RequestBody Map<String,String> body) {
+    boolean active = Boolean.parseBoolean(body.get("active"));
 
     return "redirect:/admin/user-management";
   }

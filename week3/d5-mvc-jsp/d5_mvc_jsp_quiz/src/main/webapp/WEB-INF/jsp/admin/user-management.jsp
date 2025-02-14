@@ -45,15 +45,13 @@
     const userManagementTable = document.getElementById("user-management-table");
     userManagementTable.addEventListener('click', async (e) => {
       if (e.target instanceof HTMLButtonElement) {
-        console.log(e.target, e.target.value);
         const res = await fetch('/user/management', {
           method: 'PATCH',
-          headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-          body: {
-            active: !Boolean(e.target.value)
-          }
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            active: e.target.value
+          } )
         })
-        console.log(res);
       }
     })
 
