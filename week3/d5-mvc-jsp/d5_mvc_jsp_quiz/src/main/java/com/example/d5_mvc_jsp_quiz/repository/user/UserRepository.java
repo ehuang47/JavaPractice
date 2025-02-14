@@ -3,6 +3,7 @@ package com.example.d5_mvc_jsp_quiz.repository.user;
 import com.example.d5_mvc_jsp_quiz.domain.User;
 import com.example.d5_mvc_jsp_quiz.repository.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -67,8 +68,12 @@ public class UserRepository implements EntityRepository<User, Long> {
       parameterSource.addValue("email", email);
     }
 
-    User user = namedParameterJdbcTemplate.queryForObject(queryBuilder.toString(), parameterSource, rowMapper);
-    return Optional.ofNullable(user);
+    try {
+      User user = namedParameterJdbcTemplate.queryForObject(queryBuilder.toString(), parameterSource, rowMapper);
+      return Optional.ofNullable(user);
+      } catch (EmptyResultDataAccessException e) {
+      return Optional.empty();
+    }
   }
 
   public List<User> findAllByUsernameOrEmail(String username, String email) {

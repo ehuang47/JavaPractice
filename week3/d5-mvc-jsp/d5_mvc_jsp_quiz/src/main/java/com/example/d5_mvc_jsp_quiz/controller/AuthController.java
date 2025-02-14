@@ -26,6 +26,7 @@ public class AuthController {
     return "login";
   }
 
+
   @PostMapping(value = "/login")
   public String login(@RequestParam Map<String, String> body, HttpServletRequest request) {
 

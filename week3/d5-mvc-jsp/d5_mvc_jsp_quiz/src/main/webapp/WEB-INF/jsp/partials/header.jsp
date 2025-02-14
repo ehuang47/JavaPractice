@@ -15,11 +15,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<nav style="display: flex; border-bottom: 1px solid black; padding: 4px; width: 100%; justify-content: space-around">
-    <c:if test="${userRole == 0}">
+<nav>
+    <c:if test="${userRole != null}">
         <div>
             <a href="/home">
                 <button>Home</button>
+            </a>
+        </div>
+    </c:if>
+
+    <c:if test="${userRole == 1}">
+        <div>
+            <a href="/user/management">
+                <button>User Management</button>
+            </a>
+        </div>
+        <div>
+            <a href="/quiz-result/management">
+                <button>Quiz Result Management</button>
+            </a>
+        </div>
+        <div>
+            <a href="/question/manageme{nt">
+                <button>Question Management</button>
+            </a>
+        </div>
+        <div>
+            <a href="/contact-us/management">
+                <button>Contact Us Management</button>
             </a>
         </div>
     </c:if>
@@ -56,3 +79,21 @@
 </nav>
 </body>
 </html>
+
+<style>
+    nav {
+        display: flex;
+        border-bottom: 1px solid black;
+        padding: 4px;
+        width: 100%;
+        justify-content: space-around
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+    td, th {
+        border: 1px solid black;
+        padding: 4px;
+    }
+</style>

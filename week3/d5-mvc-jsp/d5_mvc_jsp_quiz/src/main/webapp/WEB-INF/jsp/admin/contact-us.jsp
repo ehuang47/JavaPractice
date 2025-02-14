@@ -37,14 +37,3 @@
 </table>
 </body>
 </html>
-
-<style>
-    table {
-        border-collapse: collapse;
-    }
-    td, th {
-        border: 1px solid black;
-        padding: 4px;
-    }
-</style>
-

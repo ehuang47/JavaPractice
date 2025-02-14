@@ -1,6 +1,10 @@
 package com.example.d5_mvc_jsp_quiz.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -15,4 +19,5 @@ public class User {
   private int role; // 0-user, 1-admin
   private String firstName;
   private String lastName;
+  private boolean active;
 }
