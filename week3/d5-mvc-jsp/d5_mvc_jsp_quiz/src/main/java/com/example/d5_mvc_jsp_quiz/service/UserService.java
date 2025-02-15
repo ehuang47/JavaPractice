@@ -29,4 +29,8 @@ public class UserService extends EntityService<User, Long> {
   public void setActive(User user) {
     userRepository.setActive(user);
   }
+
+  public List<User> findAllByRole(int role){
+    return userRepository.findAllByRole(role);
+  }
 }

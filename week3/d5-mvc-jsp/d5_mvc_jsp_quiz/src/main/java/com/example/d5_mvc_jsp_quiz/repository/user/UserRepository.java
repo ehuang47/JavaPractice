@@ -57,6 +57,13 @@ public class UserRepository implements EntityRepository<User, Long> {
       namedParameterJdbcTemplate.update(query, parameterSource);
   }
 
+  public List<User> findAllByRole(int role) {
+    String query = "SELECT * FROM week3_user where role = :role";
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+      .addValue("role", role);
+    return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
+  }
+
   @Override
   public Optional<User> findById(Long id) {
     String query = "SELECT * FROM week3_user WHERE user_id=:userId";
@@ -100,11 +107,5 @@ public class UserRepository implements EntityRepository<User, Long> {
     }
 
     return namedParameterJdbcTemplate.query(queryBuilder.toString(), parameterSource, rowMapper);
-  }
-
-  @Override
-  public List<User> findAll() {
-    String query = "SELECT * FROM week3_user";
-    return jdbcTemplate.query(query, rowMapper);
   }
 }

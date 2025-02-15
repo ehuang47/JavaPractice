@@ -2,6 +2,7 @@ package com.example.d5_mvc_jsp_quiz.controller;
 
 import com.example.d5_mvc_jsp_quiz.domain.User;
 import com.example.d5_mvc_jsp_quiz.service.UserService;
+import com.example.d5_mvc_jsp_quiz.utils.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class UserController extends AbstractController {
   }
   @GetMapping("/management") //localhost:8080/user-management
   public String getUserView(Model model) {
-    List<User> users = userService.findAll();
+    List<User> users = userService.findAllByRole(UserRole.USER.getValue());
     model.addAttribute("users", users);
     return "admin/user-management";
   }
