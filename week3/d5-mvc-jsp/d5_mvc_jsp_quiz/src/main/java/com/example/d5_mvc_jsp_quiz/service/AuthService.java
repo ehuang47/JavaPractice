@@ -27,23 +27,15 @@ public class AuthService {
     }
   }
 
-  public void validateRegistration(String email, String username,
-                                   String password, String firstName,
-                                   String lastName) {
-    List<User> usersByUsername = userService.findAllByUsernameOrEmail(username, null);
+  public void validateRegistration(User user) {
+    List<User> usersByUsername = userService.findAllByUsernameOrEmail(user.getUsername(), null);
     if (!usersByUsername.isEmpty()) {
       throw new InvalidArgumentException("Username already exists.");
     }
-    List<User> usersByEmail = userService.findAllByUsernameOrEmail(null, email);
+    List<User> usersByEmail = userService.findAllByUsernameOrEmail(null, user.getEmail());
     if (!usersByEmail.isEmpty()) {
       throw new InvalidArgumentException("Email already exists.");
     }
-    User user = new User();
-    user.setFirstName(firstName);
-    user.setLastName(lastName);
-    user.setEmail(email);
-    user.setUsername(username);
-    user.setPassword(password);
     userService.save(user);
   }
 }
