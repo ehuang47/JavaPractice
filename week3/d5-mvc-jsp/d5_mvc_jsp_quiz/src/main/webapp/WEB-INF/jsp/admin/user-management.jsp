@@ -19,8 +19,8 @@
     <tr>
         <th>Full Name</th>
         <th>Email</th>
-        <th>Status</th>
         <th>Role</th>
+        <th>Status</th>
         <th>Toggle Status</th>
     </tr>
     </thead>
@@ -29,8 +29,8 @@
         <tr>
             <td>${user.firstName} ${user.lastName}</td>
             <td>${user.email}</td>
-            <td>${user.active ? "Active" : "Suspended"}</td>
             <td>${user.role == 0? "User" : "Admin"}</td>
+            <td>${user.active ? "Active" : "Suspended"}</td>
             <td>
                 <button id="toggle-active-btn-${user.id}" value="${user.active}">${user.active ? "Suspend" : "Activate"}</button>
             </td>
@@ -45,13 +45,19 @@
     const userManagementTable = document.getElementById("user-management-table");
     userManagementTable.addEventListener('click', async (e) => {
       if (e.target instanceof HTMLButtonElement) {
+        const id = e.target.id.split('-').at(-1);
         const res = await fetch('/user/management', {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json',  'Accept': 'application/json'},
           body: JSON.stringify({
-            active: e.target.value
+            id,
+            active: e.target.value === 'true' ? 'false' : 'true'
           } )
         })
+        const body = await res.json();
+        if (body.reload) {
+         window.location.reload();
+        }
       }
     })
 

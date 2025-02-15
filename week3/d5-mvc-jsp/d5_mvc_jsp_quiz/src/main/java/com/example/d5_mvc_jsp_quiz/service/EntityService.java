@@ -16,6 +16,10 @@ public abstract class EntityService<E,ID> {
     return repository.save(t);
   }
 
+  public ID update(E t){
+    return repository.update(t);
+  }
+
   public E findById(ID id){
     return repository.findById(id).orElseThrow(EntityNotFoundException::new);
   }

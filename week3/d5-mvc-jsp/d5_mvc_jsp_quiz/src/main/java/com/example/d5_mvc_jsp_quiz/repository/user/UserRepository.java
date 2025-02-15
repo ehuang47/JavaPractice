@@ -46,6 +46,17 @@ public class UserRepository implements EntityRepository<User, Long> {
     return Objects.requireNonNull(keyHolder.getKey()).longValue();
   }
 
+  public void setActive(User user) {
+    String query = """
+      UPDATE week3_user SET active_status = :activeStatus WHERE user_id = :userId""";
+
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+      .addValue("userId", user.getId())
+      .addValue("activeStatus", user.isActive() ? 1 : 0);
+
+      namedParameterJdbcTemplate.update(query, parameterSource);
+  }
+
   @Override
   public Optional<User> findById(Long id) {
     String query = "SELECT * FROM week3_user WHERE user_id=:userId";

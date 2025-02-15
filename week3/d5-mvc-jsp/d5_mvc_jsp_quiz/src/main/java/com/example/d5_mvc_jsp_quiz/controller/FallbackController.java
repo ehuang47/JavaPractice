@@ -10,6 +10,7 @@ public class FallbackController {
 
   @GetMapping("/**")
   public String handleUnsupportedGetRequests(){
+
     return "redirect:/login";
   }
 

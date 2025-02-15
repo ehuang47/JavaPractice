@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public interface EntityRepository<E, ID> {
   default public ID save(E t) {return null;}
+  default public ID update(E t) {return null;}
 
   default public Optional<E> findById(ID id) {return Optional.empty();}
 

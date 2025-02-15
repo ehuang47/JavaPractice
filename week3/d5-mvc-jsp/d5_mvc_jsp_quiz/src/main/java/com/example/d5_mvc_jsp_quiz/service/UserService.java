@@ -25,4 +25,8 @@ public class UserService extends EntityService<User, Long> {
   public List<User> findAllByUsernameOrEmail(String username, String email) {
     return userRepository.findAllByUsernameOrEmail(username, email);
   }
+
+  public void setActive(User user) {
+    userRepository.setActive(user);
+  }
 }
