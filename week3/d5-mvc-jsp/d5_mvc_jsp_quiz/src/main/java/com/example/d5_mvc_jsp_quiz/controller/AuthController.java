@@ -9,9 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Map;
 
 @Controller
 public class AuthController {
@@ -29,9 +26,9 @@ public class AuthController {
 
 
   @PostMapping(value = "/login")
-  public String login(@RequestParam Map<String, String> body, HttpServletRequest request) {
+  public String login(@ModelAttribute User user, HttpServletRequest request) {
 
-    User user = authService.validateLogin(body.get("username"), body.get("password"));
+    User validatedUser = authService.validateLogin(user);
 
     HttpSession oldSession = request.getSession(false);
     // invalidate old session if it exists
@@ -41,8 +38,8 @@ public class AuthController {
     HttpSession newSession = request.getSession(true);
 
     // store user details in session
-    newSession.setAttribute("userId", user.getId());
-    newSession.setAttribute("userRole", user.getRole());
+    newSession.setAttribute("userId", validatedUser.getId());
+    newSession.setAttribute("userRole", validatedUser.getRole());
 
     return "redirect:/home";
   }

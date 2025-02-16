@@ -18,12 +18,15 @@ public class AuthService {
     this.userService = userService;
   }
 
-  public User validateLogin(String username, String password){
-    Optional<User> user = userService.findByUsernameOrEmail(username, null);
-    if (user.isEmpty()) {
+  public User validateLogin(User user){
+    Optional<User> validatedUser = userService.findByUsernameOrEmail(user.getUsername(), null);
+    if(user.getUsername() == null || user.getPassword() == null) {
+      throw new InvalidArgumentException("Must provide username and password to sign in.");
+    }
+    if (validatedUser.isEmpty()) {
       throw new InvalidCredentialsException("Invalid username or password.");
     } else {
-      return user.get();
+      return validatedUser.get();
     }
   }
 
