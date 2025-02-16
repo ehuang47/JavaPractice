@@ -12,21 +12,16 @@ public class MessageService extends EntityService<Message, Long> {
     super(repository);
   }
 
-  public Message bodyMapper(String subject, String email, String messageContent){
-    if (subject == null) {
+  public Message bodyMapper(Message contactMessage){
+    if (contactMessage.getSubject() == null) {
       throw new InvalidArgumentException("Subject is required.");
-    } else if (email == null) {
+    } else if (contactMessage.getEmail() == null) {
       throw new InvalidArgumentException("Email is required.");
-    } else if (messageContent == null) {
+    } else if (contactMessage.getMessage() == null) {
       throw new InvalidArgumentException("Message is required.");
     }
-    Message message = new Message();
-    message.setSubject(subject);
-    message.setEmail(email);
-    message.setMessage(messageContent);
     String dateSubmitted = TimeUtils.getCurrentTimestamp();
-    message.setDateSubmitted(dateSubmitted);
-
-    return message;
+    contactMessage.setDateSubmitted(dateSubmitted);
+    return contactMessage;
   }
 }

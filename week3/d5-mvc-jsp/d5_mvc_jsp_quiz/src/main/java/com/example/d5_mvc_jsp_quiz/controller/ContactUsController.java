@@ -8,12 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/contact-us")
@@ -36,18 +35,15 @@ public class ContactUsController extends AbstractController  {
   }
 
   @GetMapping(value="/management")
-  public String adminViewAllContactSubmissions(Model model, HttpServletRequest request){
+  public String adminViewAllContactSubmissions(Model model){
     List<Message> messageList = messageService.findAll();
     model.addAttribute("messageList", messageList);
     return "admin/contact-us";
   }
 
   @PostMapping
-  public String submitContactUs(@RequestParam Map<String, String> body) {
-    String subject = body.get("subject");
-    String email = body.get("email");
-    String message = body.get("message");
-    Message submittedMessage = messageService.bodyMapper(subject, email, message);
+  public String submitContactUs(@ModelAttribute Message contactMessage) {
+    Message submittedMessage = messageService.bodyMapper(contactMessage);
     messageService.save(submittedMessage);
     return "redirect:/home";
   }

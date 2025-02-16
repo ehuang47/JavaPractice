@@ -19,10 +19,13 @@ public class AuthService {
   }
 
   public User validateLogin(User user){
-    Optional<User> validatedUser = userService.findByUsernameOrEmail(user.getUsername(), null);
-    if(user.getUsername() == null || user.getPassword() == null) {
-      throw new InvalidArgumentException("Must provide username and password to sign in.");
+    if(user.getUsername() == null) {
+      throw new InvalidArgumentException("Username is required.");
+    } else if (user.getPassword() == null){
+      throw new InvalidArgumentException("Password is required.");
     }
+
+    Optional<User> validatedUser = userService.findByUsernameOrEmail(user.getUsername(), null);
     if (validatedUser.isEmpty()) {
       throw new InvalidCredentialsException("Invalid username or password.");
     } else {
