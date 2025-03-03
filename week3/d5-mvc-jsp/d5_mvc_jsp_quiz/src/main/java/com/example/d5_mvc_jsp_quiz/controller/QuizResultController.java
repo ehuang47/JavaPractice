@@ -4,6 +4,7 @@ import com.example.d5_mvc_jsp_quiz.domain.Question;
 import com.example.d5_mvc_jsp_quiz.domain.Quiz;
 import com.example.d5_mvc_jsp_quiz.domain.QuizResult;
 import com.example.d5_mvc_jsp_quiz.domain.QuizResultChoice;
+import com.example.d5_mvc_jsp_quiz.domain.QuizResultSummary;
 import com.example.d5_mvc_jsp_quiz.service.QuestionService;
 import com.example.d5_mvc_jsp_quiz.service.QuizResultChoiceService;
 import com.example.d5_mvc_jsp_quiz.service.QuizResultService;
@@ -117,8 +118,14 @@ public class QuizResultController extends AbstractController {
   }
 
   @GetMapping("/management")
-  public String getQuizResultManagement(){
-    return "quiz-result";
+  public String getQuizResultManagement(@RequestParam String columnToOrder,
+                                        @RequestParam String ascending,
+                                        @RequestParam String columnToFilter,
+                                        @RequestParam String filterValue,
+                                        Model model){
+    final List<QuizResultSummary> quizResults = quizResultService.findAllForManagement(columnToOrder, ascending, columnToFilter, filterValue);
+    model.addAttribute("quizResults", quizResults);
+    return "admin/quiz-result-management";
   }
 
   @PostMapping()

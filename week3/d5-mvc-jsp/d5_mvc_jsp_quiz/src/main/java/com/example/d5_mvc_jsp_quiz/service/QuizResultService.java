@@ -2,6 +2,7 @@ package com.example.d5_mvc_jsp_quiz.service;
 
 import com.example.d5_mvc_jsp_quiz.domain.QuizResult;
 import com.example.d5_mvc_jsp_quiz.domain.QuizResultChoice;
+import com.example.d5_mvc_jsp_quiz.domain.QuizResultSummary;
 import com.example.d5_mvc_jsp_quiz.exception.type.InvalidArgumentException;
 import com.example.d5_mvc_jsp_quiz.repository.quizResult.QuizResultChoiceRepository;
 import com.example.d5_mvc_jsp_quiz.repository.quizResult.QuizResultRepository;
@@ -68,5 +69,35 @@ public class QuizResultService extends EntityService<QuizResult, Long> {
 
   public List<QuizResult> findAllByUserId(Long userId) {
     return quizResultRepository.findAllByUserId(userId);
+  }
+
+public List<QuizResultSummary> findAllForManagement(String columnToOrder,
+                                                    String ascending,
+                                                    String columnToFilter,
+                                                    String filterValue) {
+    if (columnToOrder == null) {
+      throw new InvalidArgumentException("Column to order is required.");
+    } else if (ascending == null) {
+      throw new InvalidArgumentException("Sort order is required.");
+    } else if (!ascending.equals("ASC") && !ascending.equals("DESC")) {
+      throw new InvalidArgumentException("Sort must be ASC or DESC.");
+    }
+    final List<String> validColumnNamesSort = List.of("date_submitted", "name");
+    if (!validColumnNamesSort.contains(columnToOrder)) {
+      throw new InvalidArgumentException();
+    }
+
+    final List<String> validColumnNamesFilter = List.of("category", "user_id");
+    if (columnToFilter != null && !validColumnNamesFilter.contains(columnToFilter)) {
+    throw new InvalidArgumentException();
+    }
+
+    final boolean isAscending = ascending.equals("ASC");
+    List<QuizResultSummary>  quizResultSummaries = quizResultRepository.findAllForManagement(columnToOrder, isAscending, columnToFilter, filterValue);
+    Map<Long, Integer> scoreMap = quizResultRepository.findAllScores();
+    quizResultSummaries.forEach(quizResultSummary ->
+      quizResultSummary.setScore(scoreMap.get(quizResultSummary.getId()))
+    );
+    return quizResultSummaries;
   }
 }
