@@ -24,11 +24,14 @@ public class AuthFilter extends OncePerRequestFilter {
     final String path = request.getRequestURI();
 
     final List<String> nonAuthPaths = List.of("/login", "/register");
-    if (session != null && session.getAttribute("userId") != null) {
+    final boolean userSignedIn = session != null && session.getAttribute("userId") != null;
+    if (userSignedIn) {
       if (nonAuthPaths.contains(path)) {
         response.sendRedirect("/home");
       } else {
-        if (!path.contains("/home")) {
+        final boolean toCommonPath = List.of("/home", "/logout").contains(path) ||
+          path.matches("^/quiz-result/\\d+$");
+        if (!toCommonPath) {
           int role = (int) session.getAttribute("userRole");
           if (role == UserRole.ADMIN.getValue() && !path.contains("/management") ||
             role== UserRole.USER.getValue() && path.contains("/management")) {

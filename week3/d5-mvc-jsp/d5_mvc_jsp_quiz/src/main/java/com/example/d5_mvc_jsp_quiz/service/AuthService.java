@@ -29,6 +29,10 @@ public class AuthService {
     if (validatedUser.isEmpty()) {
       throw new InvalidCredentialsException("Invalid username or password.");
     } else {
+      User dbUser = validatedUser.get();
+      if (!dbUser.getPassword().equals(user.getPassword())) {
+        throw new InvalidCredentialsException("Invalid username or password.");
+      }
       return validatedUser.get();
     }
   }

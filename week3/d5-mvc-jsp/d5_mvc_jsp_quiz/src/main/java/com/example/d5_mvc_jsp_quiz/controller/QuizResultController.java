@@ -8,6 +8,7 @@ import com.example.d5_mvc_jsp_quiz.service.QuestionService;
 import com.example.d5_mvc_jsp_quiz.service.QuizResultChoiceService;
 import com.example.d5_mvc_jsp_quiz.service.QuizResultService;
 import com.example.d5_mvc_jsp_quiz.service.QuizService;
+import com.example.d5_mvc_jsp_quiz.utils.UserRole;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,11 +100,13 @@ public class QuizResultController extends AbstractController {
 
   @GetMapping("/{id}")
   public String getQuizResult(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
-    QuizResult savedQuizResult = quizResultService.findById(id);
-    HttpSession session = request.getSession(false);
+    final QuizResult savedQuizResult = quizResultService.findById(id);
+    final HttpSession session = request.getSession(false);
 
     //    Users can only view their own quiz result details
-    if (session.getAttribute("userId") != savedQuizResult.getUserId()) {
+    final boolean didSubmitQuiz = session.getAttribute("userId") == savedQuizResult.getUserId();
+    final boolean isUser = (int) session.getAttribute("userRole")  == UserRole.USER.getValue();
+    if (isUser && !didSubmitQuiz) {
       return "redirect:/home";
     }
     Quiz quiz = quizService.findById(savedQuizResult.getQuizId());
@@ -113,7 +116,12 @@ public class QuizResultController extends AbstractController {
     return "quiz-result";
   }
 
-  @PostMapping("")
+  @GetMapping("/management")
+  public String getQuizResultManagement(){
+    return "quiz-result";
+  }
+
+  @PostMapping()
   public String submitQuiz(@RequestParam Map<String, String> body, Model model, HttpServletRequest request) {
     HttpSession session = request.getSession(false);
     Long userId = (Long) session.getAttribute("userId");
