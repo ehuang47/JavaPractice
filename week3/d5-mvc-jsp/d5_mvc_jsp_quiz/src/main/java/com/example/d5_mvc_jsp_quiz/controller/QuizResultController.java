@@ -118,10 +118,10 @@ public class QuizResultController extends AbstractController {
   }
 
   @GetMapping("/management")
-  public String getQuizResultManagement(@RequestParam String columnToOrder,
-                                        @RequestParam String ascending,
-                                        @RequestParam String columnToFilter,
-                                        @RequestParam String filterValue,
+  public String getQuizResultManagement(@RequestParam(required=false) String columnToOrder,
+                                        @RequestParam(required=false) String ascending,
+                                        @RequestParam(required=false) String columnToFilter,
+                                        @RequestParam(required=false) String filterValue,
                                         Model model){
     final List<QuizResultSummary> quizResults = quizResultService.findAllForManagement(columnToOrder, ascending, columnToFilter, filterValue);
     model.addAttribute("quizResults", quizResults);

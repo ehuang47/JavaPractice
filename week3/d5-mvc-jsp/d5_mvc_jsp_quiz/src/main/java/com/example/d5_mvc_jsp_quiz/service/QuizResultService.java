@@ -75,13 +75,18 @@ public List<QuizResultSummary> findAllForManagement(String columnToOrder,
                                                     String ascending,
                                                     String columnToFilter,
                                                     String filterValue) {
+
     if (columnToOrder == null) {
-      throw new InvalidArgumentException("Column to order is required.");
-    } else if (ascending == null) {
-      throw new InvalidArgumentException("Sort order is required.");
+      columnToOrder = "date_submitted";
+//      throw new InvalidArgumentException("Column to order is required.");
+    }
+    if (ascending == null) {
+      ascending = "ASC";
+//      throw new InvalidArgumentException("Sort order is required.");
     } else if (!ascending.equals("ASC") && !ascending.equals("DESC")) {
       throw new InvalidArgumentException("Sort must be ASC or DESC.");
     }
+
     final List<String> validColumnNamesSort = List.of("date_submitted", "name");
     if (!validColumnNamesSort.contains(columnToOrder)) {
       throw new InvalidArgumentException();
@@ -89,7 +94,7 @@ public List<QuizResultSummary> findAllForManagement(String columnToOrder,
 
     final List<String> validColumnNamesFilter = List.of("category", "user_id");
     if (columnToFilter != null && !validColumnNamesFilter.contains(columnToFilter)) {
-    throw new InvalidArgumentException();
+      throw new InvalidArgumentException();
     }
 
     final boolean isAscending = ascending.equals("ASC");
