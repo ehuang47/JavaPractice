@@ -18,12 +18,29 @@
 <h2>Filters</h2>
 <form method="get" action="${pageContext.request.contextPath}/quiz-result/management">
     <div>
-        <label for="category">Category</label>
-        <input type="text" name="category" id="category"/>
+        <label for="columnToOrder">Sort</label>
+        <select name="columnToOrder" id="columnToOrder">
+            <option value="name">Name</option>
+            <option value="date_submitted">Date</option>
+        </select>
     </div>
     <div>
-        <label for="user">User</label>
-        <input type="text" name="user" id="user"/>
+        <label for="ascending">Sort Order</label>
+        <select name="ascending" id="ascending">
+            <option value="ASC">Ascending</option>
+            <option value="DESC">Descending</option>
+        </select>
+    </div>
+    <div>
+        <label for="columnToFilter">Filter</label>
+        <select name="columnToFilter" id="columnToFilter">
+            <option value="category">Category</option>
+            <option value="user_id">User</option>
+        </select>
+    </div>
+    <div>
+        <label for="filterValue">Filter Value</label>
+        <input type="text" name="filterValue" id="filterValue"/>
     </div>
     <button type="submit">Search</button>
 </form>

@@ -78,18 +78,23 @@ public class QuizResultRepository implements EntityRepository<QuizResult, Long> 
       .append("JOIN week3_user u on r.user_id = u.user_id ")
       .append("JOIN week3_quiz q on r.quiz_id = q.quiz_id ");
 
-    if (columnToFilter != null) {
-      queryBuilder.append("WHERE :columnToFilter = :filterValue ");
+    if (columnToFilter != null && (filterValue != null && !filterValue.isEmpty())) {
+      queryBuilder.append("WHERE ")
+        .append(columnToFilter.equals("user_id") ? "u.user_id" : columnToFilter)
+        .append("= :filterValue ");
     }
     if (columnToOrder.equals("name")){
-      queryBuilder.append("ORDER BY first_name :ascending, last_name :ascending");
+      queryBuilder.append("ORDER BY first_name ")
+        .append(ascending ? "ASC" : "DESC")
+        .append(", last_name ")
+        .append(ascending ? "ASC" : "DESC");
     } else {
-      queryBuilder.append("ORDER BY :columnToOrder :ascending");
+      queryBuilder.append("ORDER BY ")
+        .append(columnToOrder)
+        .append(" ")
+        .append(ascending ? "ASC" : "DESC");
     }
     MapSqlParameterSource parameterSource = new MapSqlParameterSource()
-      .addValue("columnToOrder", columnToOrder)
-      .addValue("ascending", ascending ? "ASC" : "DESC")
-      .addValue("columnToFilter", columnToFilter)
       .addValue("filterValue", filterValue);
     return namedParameterJdbcTemplate.query(queryBuilder.toString(), parameterSource, quizResultSummaryRowMapper);
   }
