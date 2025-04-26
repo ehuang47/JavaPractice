@@ -18,5 +18,6 @@ public class Question {
   private Long quizId;
   private Long correctChoiceId;
   private String description;
+  private boolean active;
   private List<Choice> choiceList;
 }

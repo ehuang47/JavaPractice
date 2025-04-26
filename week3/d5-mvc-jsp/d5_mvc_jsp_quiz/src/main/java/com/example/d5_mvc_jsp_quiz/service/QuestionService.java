@@ -27,6 +27,10 @@ public class QuestionService extends EntityService<Question, Long> {
     this.choiceService = choiceService;
   }
 
+  public List<Question> findAll() {
+    return questionRepository.findAll();
+  }
+
   public List<Question> findAllByQuestionIdListWithChoices(List<Long> questionIdList) {
     return questionRepository.findAllByQuestionIdList(questionIdList);
   }

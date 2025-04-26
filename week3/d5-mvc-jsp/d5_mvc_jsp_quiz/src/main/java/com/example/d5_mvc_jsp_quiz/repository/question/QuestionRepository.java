@@ -52,4 +52,8 @@ public class QuestionRepository implements EntityRepository<Question, Long> {
     return namedParameterJdbcTemplate.query(query, parameterSource, rowMapper);
   }
 
+  @Override
+  public List<Question> findAll(){
+    return jdbcTemplate.query("SELECT * from week3_question", rowMapper);
+  }
 }

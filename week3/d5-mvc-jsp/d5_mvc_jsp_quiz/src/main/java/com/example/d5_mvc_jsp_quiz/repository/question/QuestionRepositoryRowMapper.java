@@ -17,6 +17,7 @@ public class QuestionRepositoryRowMapper implements RowMapper<Question> {
     question.setCorrectChoiceId(rs.getLong("correct_choice_id"));
     question.setDescription(rs.getString("description"));
     question.setChoiceList(null);
+    question.setActive(rs.getInt("active_status") == 1);
     return question;
   }
 }

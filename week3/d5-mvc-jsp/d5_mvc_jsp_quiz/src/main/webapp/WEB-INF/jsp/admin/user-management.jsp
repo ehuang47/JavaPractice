@@ -32,7 +32,9 @@
             <td>${user.role == 0? "User" : "Admin"}</td>
             <td>${user.active ? "Active" : "Suspended"}</td>
             <td>
-                <button id="toggle-active-btn-${user.id}" value="${user.active}">${user.active ? "Suspend" : "Activate"}</button>
+                <button id="toggle-active-btn-${user.id}" value="${user.active}">
+                        ${user.active ? "Suspend" : "Activate"}
+                </button>
             </td>
         </tr>
     </c:forEach>

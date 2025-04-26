@@ -36,7 +36,7 @@
             </a>
         </div>
         <div>
-            <a href="/question/manageme{nt">
+            <a href="/question/management">
                 <button>Question Management</button>
             </a>
         </div>
