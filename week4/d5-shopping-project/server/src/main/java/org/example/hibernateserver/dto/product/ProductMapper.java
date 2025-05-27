@@ -1,9 +1,14 @@
 package org.example.hibernateserver.dto.product;
 
 import org.example.hibernateserver.domain.Product;
+import org.example.hibernateserver.dto.common.EntityMapper;
+import org.springframework.stereotype.Component;
 
-public class ProductMapper {
-  public static ProductDto toDto(Product product){
+import java.util.List;
+@Component
+public class ProductMapper implements EntityMapper<Product, ProductDto> {
+  @Override
+  public ProductDto toDto(Product product){
     return ProductDto.builder()
       .id(product.getId())
       .description(product.getDescription())
@@ -12,5 +17,10 @@ public class ProductMapper {
       .retailPrice(product.getRetailPrice())
       .wholesalePrice(product.getWholesalePrice())
       .build();
+  }
+
+  @Override
+  public List<ProductDto> toDtoList(List<Product> products) {
+    return products.stream().map(this::toDto).toList();
   }
 }

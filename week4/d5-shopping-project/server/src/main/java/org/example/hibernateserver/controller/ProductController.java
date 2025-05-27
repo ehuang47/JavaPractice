@@ -30,13 +30,11 @@ public class ProductController {
   public DataResponse<List<ProductDto>> findAllProducts(@Valid @ModelAttribute ProductQueryRequest productQueryRequest, BindingResult result) {
     System.out.println(productQueryRequest);
     System.out.println(result);
-    List<Product> allProducts = productService.getAll();
-    return new DataResponse<>(true, "here", allProducts.stream().map(ProductMapper::toDto).collect(Collectors.toList()));
+    return new DataResponse<>(true, "here", productService.getAll());
   }
 
   @GetMapping("/{id}")
   public DataResponse<ProductDto> findProductById(@PathVariable int id) {
-    Product p = productService.findById(id);
-    return new DataResponse<>(true, "here", ProductMapper.toDto(p));
+    return new DataResponse<>(true, "here", productService.findById(id));
   }
 }
