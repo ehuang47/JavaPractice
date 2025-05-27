@@ -14,6 +14,7 @@ CREATE DATABASE shopping;
 USE shopping;
 SHOW TABLES;
 DESCRIBE product;
+-- -----------
 DROP TABLE IF EXISTS product;
 CREATE TABLE product (
                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -30,3 +31,14 @@ INSERT INTO product (description, name, quantity, retail_price, wholesale_price)
 );
 
 SELECT * FROM product;
+
+-- -----------
+DROP TABLE IF EXISTS product;
+CREATE TABLE product (
+                         id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         description    VARCHAR(255) NOT NULL,
+                         name VARCHAR(255) NOT NULL,
+                         quantity     INT          NOT NULL,
+                         retail_price DOUBLE NOT NULL,
+                         wholesale_price DOUBLE NOT NULL
+);

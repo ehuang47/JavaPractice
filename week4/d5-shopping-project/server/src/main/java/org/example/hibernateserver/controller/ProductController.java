@@ -2,12 +2,20 @@ package org.example.hibernateserver.controller;
 
 import org.example.hibernateserver.domain.Product;
 import org.example.hibernateserver.dto.common.DataResponse;
+import org.example.hibernateserver.dto.product.ProductDto;
+import org.example.hibernateserver.dto.product.ProductMapper;
+import org.example.hibernateserver.dto.product.ProductQueryRequest;
 import org.example.hibernateserver.service.ProductService;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
@@ -19,7 +27,16 @@ public class ProductController {
   }
 
   @GetMapping("/all")
-  public DataResponse<List<Product>> getAllProducts() {
-    return new DataResponse<>(true, "here", productService.getAll());
+  public DataResponse<List<ProductDto>> findAllProducts(@Valid @ModelAttribute ProductQueryRequest productQueryRequest, BindingResult result) {
+    System.out.println(productQueryRequest);
+    System.out.println(result);
+    List<Product> allProducts = productService.getAll();
+    return new DataResponse<>(true, "here", allProducts.stream().map(ProductMapper::toDto).collect(Collectors.toList()));
+  }
+
+  @GetMapping("/{id}")
+  public DataResponse<ProductDto> findProductById(@PathVariable int id) {
+    Product p = productService.findById(id);
+    return new DataResponse<>(true, "here", ProductMapper.toDto(p));
   }
 }
