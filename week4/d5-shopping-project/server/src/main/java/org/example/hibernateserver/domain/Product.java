@@ -28,18 +28,18 @@ public class Product {
   @Column
   private Integer id;
 
-  @Column(nullable = false)
+  @Column(name = "description", nullable = false)
   private String description;
 
-  @Column(nullable = false)
+  @Column(name = "name", nullable = false)
   private String name;
 
-  @Column(nullable = false)
+  @Column(name = "quantity", nullable = false)
   private Integer quantity;
 
-  @Column(nullable = false)
+  @Column(name = "retail_price", nullable = false)
   private Double retailPrice;
 
-  @Column(nullable = false)
+  @Column(name = "wholesale_price", nullable = false)
   private Double wholesalePrice;
 }
