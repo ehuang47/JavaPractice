@@ -35,4 +35,13 @@ public class ProductMapper implements EntityMapper<Product, ProductDto> {
       .wholesalePrice(product.getWholesalePrice())
       .build();
   }
+
+  @Override
+  public void updateEntityFromDto(Product entity, ProductDto dto) {
+    entity.setDescription(dto.getDescription());
+    entity.setName(dto.getName());
+    entity.setQuantity(dto.getQuantity());
+    entity.setRetailPrice(dto.getRetailPrice());
+    entity.setWholesalePrice(dto.getWholesalePrice());
+  }
 }

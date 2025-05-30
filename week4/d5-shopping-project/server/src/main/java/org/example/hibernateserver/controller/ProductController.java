@@ -7,6 +7,7 @@ import org.example.hibernateserver.service.ProductService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,5 +43,12 @@ public class ProductController {
     System.out.println(result);
     productService.add(product);
     return DataResponse.successWithMessage("Successfully added new product.");
+  }
+
+  @PatchMapping()
+  public DataResponse<?> updateProduct(@Valid @RequestBody ProductDto product, BindingResult result) {
+    System.out.println(result);
+    productService.updateProduct(product);
+    return DataResponse.successWithMessage("Successfully updated product.");
   }
 }

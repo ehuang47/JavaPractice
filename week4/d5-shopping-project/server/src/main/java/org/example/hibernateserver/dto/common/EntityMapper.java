@@ -6,4 +6,5 @@ public interface EntityMapper<E, D> {
   D toDto(E entity);
   List<D> toDtoList(List<E> entities);
   E toEntity(D dto);
+  void updateEntityFromDto(E entity, D dto);
 }

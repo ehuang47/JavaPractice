@@ -32,7 +32,7 @@ INSERT INTO product (description, name, quantity, retail_price, wholesale_price)
 
 SELECT * FROM product;
 
--- -----------
+-- ---------------------------------
 DROP TABLE IF EXISTS product;
 CREATE TABLE product (
                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -42,3 +42,11 @@ CREATE TABLE product (
                          retail_price DOUBLE NOT NULL,
                          wholesale_price DOUBLE NOT NULL
 );
+
+-- ---------------------------------
+
+DROP TABLE IF EXISTS 'order';
+CREATE TABLE 'order'
+(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY
+)
