@@ -1,21 +1,20 @@
 package org.example.hibernateserver.controller;
 
-import org.example.hibernateserver.domain.Product;
 import org.example.hibernateserver.dto.common.DataResponse;
 import org.example.hibernateserver.dto.product.ProductDto;
-import org.example.hibernateserver.dto.product.ProductMapper;
 import org.example.hibernateserver.dto.product.ProductQueryRequest;
 import org.example.hibernateserver.service.ProductService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
@@ -30,11 +29,18 @@ public class ProductController {
   public DataResponse<List<ProductDto>> findAllProducts(@Valid @ModelAttribute ProductQueryRequest productQueryRequest, BindingResult result) {
     System.out.println(productQueryRequest);
     System.out.println(result);
-    return new DataResponse<>(true, "here", productService.getAll());
+    return DataResponse.successWithData(productService.getAll());
   }
 
   @GetMapping("/{id}")
   public DataResponse<ProductDto> findProductById(@PathVariable int id) {
-    return new DataResponse<>(true, "here", productService.findById(id));
+    return DataResponse.successWithData(productService.findById(id));
+  }
+
+  @PostMapping()
+  public DataResponse<?> addProduct(@Valid @RequestBody ProductDto product, BindingResult result) {
+    System.out.println(result);
+    productService.add(product);
+    return DataResponse.successWithMessage("Successfully added new product.");
   }
 }

@@ -23,4 +23,16 @@ public class ProductMapper implements EntityMapper<Product, ProductDto> {
   public List<ProductDto> toDtoList(List<Product> products) {
     return products.stream().map(this::toDto).toList();
   }
+
+  @Override
+  public Product toEntity(ProductDto product) {
+    return Product.builder()
+      .id(product.getId())
+      .description(product.getDescription())
+      .name(product.getName())
+      .quantity(product.getQuantity())
+      .retailPrice(product.getRetailPrice())
+      .wholesalePrice(product.getWholesalePrice())
+      .build();
+  }
 }

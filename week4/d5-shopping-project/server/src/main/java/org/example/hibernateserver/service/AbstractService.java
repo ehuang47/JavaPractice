@@ -27,10 +27,8 @@ public abstract class AbstractService<E,D> {
   }
 
   @Transactional
-  public void add(Collection<E> items) {
-    for (E item : items) {
-      abstractDao.add(item);
-    }
+  public void add(D item) {
+    abstractDao.add(entityMapper.toEntity(item));
   }
 
 }
