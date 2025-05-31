@@ -2,6 +2,7 @@ package org.example.hibernateserver.service;
 
 import org.example.hibernateserver.dao.AbstractDao;
 import org.example.hibernateserver.dto.common.EntityMapper;
+import org.example.hibernateserver.dto.common.IdentifiableDto;
 import org.example.hibernateserver.dto.common.QueryDto;
 
 import javax.persistence.EntityNotFoundException;
@@ -9,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AbstractService<E,D,Q extends QueryDto> {
+public abstract class AbstractService<E,D extends IdentifiableDto,Q extends QueryDto> {
   private final AbstractDao<E,Q> abstractDao;
   protected final EntityMapper<E,D> entityMapper;
 
@@ -24,16 +25,18 @@ public abstract class AbstractService<E,D,Q extends QueryDto> {
   }
 
   @Transactional
-  public D findById(int id) {
+  public D findById(Long id) {
     return entityMapper.toDto(abstractDao.findById(id));
   }
 
   @Transactional
-  public void add(D item) {
-    abstractDao.add(entityMapper.toEntity(item));
+  public void add(D dto) {
+    abstractDao.add(entityMapper.toEntity(dto));
   }
 
-  public E load(int id) {
-    return abstractDao.load(id).orElseThrow(() -> new EntityNotFoundException(id + " not found"));
+  @Transactional
+  public void update(D dto) {
+    E entity = abstractDao.load(dto.getId()).orElseThrow(() -> new EntityNotFoundException(dto.getId() + " not found"));
+    entityMapper.updateEntityFromDto(entity,dto);
   }
 }

@@ -34,7 +34,7 @@ public class ProductController {
   }
 
   @GetMapping("/{id}")
-  public DataResponse<ProductDto> findProductById(@PathVariable int id) {
+  public DataResponse<ProductDto> findProductById(@PathVariable Long id) {
     return DataResponse.successWithData(productService.findById(id));
   }
 
@@ -48,7 +48,7 @@ public class ProductController {
   @PatchMapping()
   public DataResponse<?> updateProduct(@Valid @RequestBody ProductDto product, BindingResult result) {
     System.out.println(result);
-    productService.updateProduct(product);
+    productService.update(product);
     return DataResponse.successWithMessage("Successfully updated product.");
   }
 }

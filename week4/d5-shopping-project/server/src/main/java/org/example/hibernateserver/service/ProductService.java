@@ -17,10 +17,4 @@ public class ProductService extends AbstractService<Product, ProductDto, Product
   public ProductService(ProductDao productDao, ProductMapper productMapper) {
     super(productDao,productMapper);
   }
-
-  @Transactional
-  public void updateProduct(ProductDto productDto) {
-    final Product product = super.load(productDto.getId());
-    entityMapper.updateEntityFromDto(product, productDto);
-  }
 }

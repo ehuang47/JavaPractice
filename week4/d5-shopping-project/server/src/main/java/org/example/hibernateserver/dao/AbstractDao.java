@@ -43,7 +43,7 @@ public abstract class AbstractDao<E, Q extends QueryDto> {
     return cb.conjunction();
   }
 
-  public E findById(int id) {
+  public E findById(Long id) {
     return getCurrentSession().get(tClass, id);
   }
 
@@ -51,7 +51,7 @@ public abstract class AbstractDao<E, Q extends QueryDto> {
     getCurrentSession().save(entity);
   }
 
-  public Optional<E> load(int id) {
+  public Optional<E> load(Long id) {
     final E entity = getCurrentSession().load(tClass, id);
     return Optional.ofNullable(entity);
   }
