@@ -28,8 +28,9 @@ public class ProductController {
 
   @GetMapping("/all")
   public DataResponse<List<ProductDto>> findAllProducts(@Valid @ModelAttribute ProductQueryDto productQueryDto, BindingResult result) {
-    System.out.println(productQueryDto);
-    System.out.println(result);
+    if (result.hasErrors()) {
+      return DataResponse.failure("Unable to get products.");
+    }
     return DataResponse.successWithData(productService.getAll(productQueryDto));
   }
 
@@ -40,14 +41,18 @@ public class ProductController {
 
   @PostMapping()
   public DataResponse<?> addProduct(@Valid @RequestBody ProductDto product, BindingResult result) {
-    System.out.println(result);
+    if (result.hasErrors()) {
+      return DataResponse.failure("Unable to add product.");
+    }
     productService.add(product);
     return DataResponse.successWithMessage("Successfully added new product.");
   }
 
   @PatchMapping()
   public DataResponse<?> updateProduct(@Valid @RequestBody ProductDto product, BindingResult result) {
-    System.out.println(result);
+    if (result.hasErrors()) {
+      return DataResponse.failure("Unable to update product.");
+    }
     productService.update(product);
     return DataResponse.successWithMessage("Successfully updated product.");
   }
