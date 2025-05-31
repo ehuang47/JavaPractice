@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.hibernateserver.domain.enums.OrderStatus;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,12 +33,14 @@ public class Order {
   private Long id;
 
   @Enumerated(EnumType.STRING)
-  @Column(name="status", nullable = false)
+  @Column(name="status", nullable = false, insertable = false)
+  @Generated(GenerationTime.INSERT)
   private OrderStatus status;
 
-  @Column(name="date_placed", nullable = false)
+  @Column(name="date_placed", nullable = false, insertable = false, updatable = false)
+  @Generated(GenerationTime.INSERT)
   private LocalDateTime datePlaced;
 
-  @Column(name="user_id", nullable = false)
+  @Column(name="user_id", nullable = false, updatable = false)
   private Long userId;
 }

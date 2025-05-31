@@ -50,10 +50,10 @@ CREATE TABLE `order`
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-INSERT INTO `order` (user_id)
-VALUES (1),
-       (1),
-       (1);
+INSERT INTO `order` (status, user_id)
+VALUES ('PROCESSING', 1),
+       ('COMPLETED',1),
+       ('CANCELED',1);
 
 SELECT * from `order`;
 -- ---------------------------------
