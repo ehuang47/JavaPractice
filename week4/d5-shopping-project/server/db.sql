@@ -1,14 +1,3 @@
--- DROP TABLE IF EXISTS user;
---
--- CREATE TABLE user
--- (
---     id       INT AUTO_INCREMENT PRIMARY KEY,
---     email    VARCHAR(255) NOT NULL,
---     password VARCHAR(255) NOT NULL,
---     role     INT          NOT NULL,
---     username VARCHAR(255) NOT NULL
--- )
-
 SHOW DATABASES;
 CREATE DATABASE shopping;
 USE shopping;
@@ -55,8 +44,8 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order`
 (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    date_placed DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status ENUM('PROCESSING', 'COMPLETED', 'CANCELED') NOT NULL DEFAULT 'PROCESSING',
+    date_placed DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     user_id BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(id)
 );

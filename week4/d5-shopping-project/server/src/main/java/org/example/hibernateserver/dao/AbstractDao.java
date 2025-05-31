@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public abstract class AbstractDao<E, Q extends QueryDto> {
@@ -34,13 +35,18 @@ public abstract class AbstractDao<E, Q extends QueryDto> {
     Root<E> root = criteriaQuery.from(tClass);
 
     Predicate filter = buildPredicate(builder, root, filters);
-    criteriaQuery.select(root).where(filter);
+    List<Order> orders =  buildOrders(builder, root, filters);
+    criteriaQuery.select(root).where(filter).orderBy(orders);
 
     return session.createQuery(criteriaQuery).getResultList();
   }
 
   protected Predicate buildPredicate(CriteriaBuilder cb, Root<E> root, Q filters) {
     return cb.conjunction();
+  }
+
+  protected List<Order> buildOrders(CriteriaBuilder cb, Root<E> root, Q filters) {
+    return new ArrayList<>();
   }
 
   public E findById(Long id) {
