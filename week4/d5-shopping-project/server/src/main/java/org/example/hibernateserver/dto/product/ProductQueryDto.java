@@ -3,13 +3,12 @@ package org.example.hibernateserver.dto.product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
+import org.example.hibernateserver.dto.common.QueryDto;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
-public class ProductQueryRequest {
+public class ProductQueryDto implements QueryDto {
   private Boolean inStockOnly = false;
 
 //  private String category;

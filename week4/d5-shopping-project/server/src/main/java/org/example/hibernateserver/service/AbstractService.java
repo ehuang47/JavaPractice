@@ -2,24 +2,25 @@ package org.example.hibernateserver.service;
 
 import org.example.hibernateserver.dao.AbstractDao;
 import org.example.hibernateserver.dto.common.EntityMapper;
+import org.example.hibernateserver.dto.common.QueryDto;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AbstractService<E,D> {
-  private final AbstractDao<E> abstractDao;
+public abstract class AbstractService<E,D,Q extends QueryDto> {
+  private final AbstractDao<E,Q> abstractDao;
   protected final EntityMapper<E,D> entityMapper;
 
-  public AbstractService(AbstractDao<E> abstractDao, EntityMapper<E,D> entityMapper) {
+  public AbstractService(AbstractDao<E,Q> abstractDao, EntityMapper<E,D> entityMapper) {
     this.abstractDao = abstractDao;
     this.entityMapper = entityMapper;
   }
 
   @Transactional
-  public List<D> getAll() {
-    return entityMapper.toDtoList(abstractDao.getAll());
+  public List<D> getAll(Q queryDto) {
+    return entityMapper.toDtoList(abstractDao.getAll(queryDto));
   }
 
   @Transactional

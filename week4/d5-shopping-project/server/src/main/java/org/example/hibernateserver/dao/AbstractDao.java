@@ -1,15 +1,19 @@
 package org.example.hibernateserver.dao;
 
+import org.example.hibernateserver.dto.common.QueryDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public abstract class AbstractDao<E> {
+public abstract class AbstractDao<E, Q extends QueryDto> {
   @Autowired
   protected SessionFactory sessionFactory;
 
@@ -23,14 +27,20 @@ public abstract class AbstractDao<E> {
     return sessionFactory.getCurrentSession();
   }
 
-  public List<E> getAll() {
+  public List<E> getAll(Q filters) {
     Session session = getCurrentSession();
     CriteriaBuilder builder = session.getCriteriaBuilder();
-//    create query that returns objects of this tClass type
     CriteriaQuery<E> criteriaQuery = builder.createQuery(tClass);
-//    return records from table/entity associated with tClass
-    criteriaQuery.from(tClass);
+    Root<E> root = criteriaQuery.from(tClass);
+
+    Predicate filter = buildPredicate(builder, root, filters);
+    criteriaQuery.select(root).where(filter);
+
     return session.createQuery(criteriaQuery).getResultList();
+  }
+
+  protected Predicate buildPredicate(CriteriaBuilder cb, Root<E> root, Q filters) {
+    return cb.conjunction();
   }
 
   public E findById(int id) {

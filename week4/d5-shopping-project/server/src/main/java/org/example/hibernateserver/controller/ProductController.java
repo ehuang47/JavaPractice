@@ -2,7 +2,7 @@ package org.example.hibernateserver.controller;
 
 import org.example.hibernateserver.dto.common.DataResponse;
 import org.example.hibernateserver.dto.product.ProductDto;
-import org.example.hibernateserver.dto.product.ProductQueryRequest;
+import org.example.hibernateserver.dto.product.ProductQueryDto;
 import org.example.hibernateserver.service.ProductService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +27,10 @@ public class ProductController {
   }
 
   @GetMapping("/all")
-  public DataResponse<List<ProductDto>> findAllProducts(@Valid @ModelAttribute ProductQueryRequest productQueryRequest, BindingResult result) {
-    System.out.println(productQueryRequest);
+  public DataResponse<List<ProductDto>> findAllProducts(@Valid @ModelAttribute ProductQueryDto productQueryDto, BindingResult result) {
+    System.out.println(productQueryDto);
     System.out.println(result);
-    return DataResponse.successWithData(productService.getAll());
+    return DataResponse.successWithData(productService.getAll(productQueryDto));
   }
 
   @GetMapping("/{id}")
