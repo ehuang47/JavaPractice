@@ -19,6 +19,10 @@ VALUES ('description 1', 'prod 1', 5, 10, 5),
        ('description 2', 'prod 2', 5, 10, 5),
        ('description 3', 'prod 3', 5, 10, 5);
 
+INSERT INTO product (description, name, quantity, retail_price, wholesale_price)
+VALUES ('description 4', 'prod 4', 5, 10, 5),
+       ('description 5', 'prod 5', 5, 10, 5);
+
 SELECT * FROM product;
 
 -- ---------------------------------
@@ -55,6 +59,8 @@ VALUES ('PROCESSING', 1),
        ('COMPLETED',1),
        ('CANCELED',1);
 
+INSERT INTO `order` (user_id) VALUES (1), (1);
+
 SELECT * from `order`;
 -- ---------------------------------
 
@@ -80,11 +86,32 @@ VALUES (10, 1, 5, 1, 1),
        (10, 1, 5, 2, 3),
        (10, 1, 5, 3, 1),
        (10, 1, 5, 3, 2),
-       (10, 1, 5, 3, 3);
+       (10, 1, 5, 3, 3),
+       (10, 1, 5, 4, 1),
+       (10, 1, 5, 4, 2),
+       (10, 1, 5, 4, 4),
+       (10, 1, 5, 5, 1),
+       (10, 1, 5, 5, 4),
+       (10, 1, 5, 5, 5);
 
 SELECT * from product;
+SELECT * from `order`;
 SELECT * from order_item;
 
+select i.product_id, SUM(i.quantity) as totalQuantity
+from order_item i
+    join `order` o
+        on i.order_id = o.id
+where status <> 'CANCELED'
+group by i.product_id
+order by totalQuantity desc;
+
+select product_id, date_placed, quantity
+from order_item i
+join `order` o on i.order_id = o.id
+where o.status <> 'CANCELED'
+order by o.date_placed desc
+limit 3;
 -- ---------------------------------
 
 DROP TABLE IF EXISTS watchlist;

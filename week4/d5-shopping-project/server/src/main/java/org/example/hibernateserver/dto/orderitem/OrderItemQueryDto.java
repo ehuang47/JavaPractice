@@ -1,4 +1,4 @@
-package org.example.hibernateserver.dto.order;
+package org.example.hibernateserver.dto.orderitem;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,8 +8,9 @@ import org.example.hibernateserver.dto.common.QueryDto;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderQueryDto implements QueryDto {
+public class OrderItemQueryDto implements QueryDto {
+  private String query;
   private String status;
   private String sortBy;
-  private Integer pageSize;
+  private Integer pageSize = 5;
 }

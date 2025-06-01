@@ -10,6 +10,8 @@ import org.example.hibernateserver.dto.common.QueryDto;
 @AllArgsConstructor
 public class ProductQueryDto implements QueryDto {
   private Boolean inStockOnly = false;
+  private String sortBy;
+  private Integer pageSize;
 
 //  private String category;
 //
@@ -18,8 +20,4 @@ public class ProductQueryDto implements QueryDto {
 //  private Double maxPrice;
 //
 //  private String search;
-//
-//  private String sortBy = "name"; // e.g., "price", "name"
-//
-//  private String sortOrder = "asc"; // or "desc
 }

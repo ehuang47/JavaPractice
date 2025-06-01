@@ -46,7 +46,26 @@ public abstract class AbstractDao<E, Q extends QueryDto> {
   }
 
   protected List<Order> buildOrders(CriteriaBuilder cb, Root<E> root, Q filters) {
-    return new ArrayList<>();
+    List<Order> orders = new ArrayList<>();
+    String sortQuery = filters.getSortBy();
+    if (sortQuery != null) {
+      String[] sortParts = sortQuery.split(",");
+      for (String part: sortParts) {
+        part = part.trim();
+        boolean asc = true;
+        String columnName;
+        if (part.startsWith("-")) {
+          asc = false;
+          columnName = part.substring(1);
+        } else if (part.startsWith("+")) {
+          columnName = part.substring(1);
+        } else {
+          columnName = part;
+        }
+        orders.add(asc ? cb.asc(root.get(columnName)) : cb.desc(root.get(columnName)));
+      }
+    }
+    return orders;
   }
 
   public E findById(Long id) {
