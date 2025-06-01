@@ -2,17 +2,16 @@ package org.example.hibernateserver.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.example.hibernateserver.dto.common.QueryDto;
+import org.example.hibernateserver.dto.common.AbstractQueryDto;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductQueryDto implements QueryDto {
+@EqualsAndHashCode(callSuper = true)
+public class ProductQueryDto extends AbstractQueryDto {
   private Boolean inStockOnly = false;
-  private String sortBy;
-  private Integer pageSize;
-
 //  private String category;
 //
 //  private Double minPrice;

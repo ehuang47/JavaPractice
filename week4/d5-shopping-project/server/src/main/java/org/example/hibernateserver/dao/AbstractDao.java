@@ -1,6 +1,6 @@
 package org.example.hibernateserver.dao;
 
-import org.example.hibernateserver.dto.common.QueryDto;
+import org.example.hibernateserver.dto.common.AbstractQueryDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractDao<E, Q extends QueryDto> {
+public abstract class AbstractDao<E, Q extends AbstractQueryDto> {
   @Autowired
   protected SessionFactory sessionFactory;
 

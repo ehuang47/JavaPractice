@@ -2,14 +2,14 @@ package org.example.hibernateserver.dto.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.example.hibernateserver.dto.common.QueryDto;
+import org.example.hibernateserver.dto.common.AbstractQueryDto;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderQueryDto implements QueryDto {
+@EqualsAndHashCode(callSuper = true)
+public class OrderQueryDto extends AbstractQueryDto {
   private String status;
-  private String sortBy;
-  private Integer pageSize;
 }

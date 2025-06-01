@@ -3,14 +3,13 @@ package org.example.hibernateserver.service;
 import org.example.hibernateserver.dao.AbstractDao;
 import org.example.hibernateserver.dto.common.EntityMapper;
 import org.example.hibernateserver.dto.common.IdentifiableDto;
-import org.example.hibernateserver.dto.common.QueryDto;
+import org.example.hibernateserver.dto.common.AbstractQueryDto;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.util.Collection;
 import java.util.List;
 
-public abstract class AbstractService<E,D extends IdentifiableDto,Q extends QueryDto> {
+public abstract class AbstractService<E,D extends IdentifiableDto,Q extends AbstractQueryDto> {
   private final AbstractDao<E,Q> abstractDao;
   protected final EntityMapper<E,D> entityMapper;
 
