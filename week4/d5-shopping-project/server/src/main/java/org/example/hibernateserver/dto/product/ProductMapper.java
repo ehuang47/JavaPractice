@@ -3,8 +3,6 @@ package org.example.hibernateserver.dto.product;
 import org.example.hibernateserver.domain.Product;
 import org.example.hibernateserver.dto.common.EntityMapper;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 @Component
 public class ProductMapper implements EntityMapper<Product, ProductDto> {
   @Override

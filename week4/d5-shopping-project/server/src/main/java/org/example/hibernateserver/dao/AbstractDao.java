@@ -72,8 +72,8 @@ public abstract class AbstractDao<E, Q extends AbstractQueryDto> {
     return getCurrentSession().get(tClass, id);
   }
 
-  public void add(E entity) {
-    getCurrentSession().save(entity);
+  public Long save(E entity) {
+    return (Long) getCurrentSession().save(entity);
   }
 
   public Optional<E> load(Long id) {

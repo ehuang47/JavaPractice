@@ -4,8 +4,6 @@ import org.example.hibernateserver.domain.Order;
 import org.example.hibernateserver.dto.common.EntityMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class OrderMapper implements EntityMapper<Order, OrderDto> {
   @Override
@@ -19,12 +17,9 @@ public class OrderMapper implements EntityMapper<Order, OrderDto> {
   }
 
   @Override
-  public Order toEntity(OrderDto order) {
+  public Order toEntity(OrderDto dto) {
     return Order.builder()
-      .id(order.getId())
-      .status(order.getStatus())
-      .datePlaced(order.getDatePlaced())
-      .userId(order.getUserId())
+      .userId(dto.getUserId())
       .build();
   }
 

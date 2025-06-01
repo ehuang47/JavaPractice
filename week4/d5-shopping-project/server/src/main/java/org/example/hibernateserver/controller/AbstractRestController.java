@@ -1,6 +1,7 @@
 package org.example.hibernateserver.controller;
 
 import org.example.hibernateserver.dto.common.AbstractQueryDto;
+import org.example.hibernateserver.dto.common.CreateDto;
 import org.example.hibernateserver.dto.common.DataResponse;
 import org.example.hibernateserver.dto.common.IdentifiableDto;
 import org.example.hibernateserver.service.AbstractService;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.util.List;
 
-public abstract class AbstractRestController<S extends AbstractService<E,D,Q>,
-  E,D extends IdentifiableDto,Q extends AbstractQueryDto> {
+public abstract class AbstractRestController<S extends AbstractService<E,D,Q,C>,
+  E,D extends IdentifiableDto,Q extends AbstractQueryDto, C extends CreateDto> {
   protected final S abstractService;
   public AbstractRestController(S abstractService) {
     this.abstractService = abstractService;
@@ -42,14 +43,14 @@ public abstract class AbstractRestController<S extends AbstractService<E,D,Q>,
   }
 
   @PostMapping()
-  public DataResponse<?> create(@Valid @RequestBody D dto, BindingResult result) {
+  public DataResponse<?> create(@Valid @RequestBody C dto, BindingResult result) {
     if (!supportsCreate()) {
       return DataResponse.failure("Create not supported.");
     }
     if (result.hasErrors()) {
       return DataResponse.failure("Invalid data.");
     }
-    abstractService.add(dto);
+    abstractService.save(dto, 1L);
     return DataResponse.successWithMessage("Successfully created.");
   }
   @PatchMapping()

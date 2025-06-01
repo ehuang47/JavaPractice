@@ -2,6 +2,7 @@ package org.example.hibernateserver.service;
 
 import org.example.hibernateserver.dao.OrderItemDao;
 import org.example.hibernateserver.domain.OrderItem;
+import org.example.hibernateserver.dto.orderitem.OrderItemCreateDto;
 import org.example.hibernateserver.dto.orderitem.OrderItemDto;
 import org.example.hibernateserver.dto.orderitem.OrderItemMapper;
 import org.example.hibernateserver.dto.orderitem.OrderItemQueryDto;
@@ -14,7 +15,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class OrderItemService extends AbstractService<OrderItem, OrderItemDto, OrderItemQueryDto>{
+public class OrderItemService extends AbstractService<OrderItem, OrderItemDto, OrderItemQueryDto, OrderItemCreateDto>{
   private final OrderItemDao orderItemDao;
   @Autowired
   public OrderItemService(OrderItemDao orderItemDao, OrderItemMapper orderItemMapper) {
