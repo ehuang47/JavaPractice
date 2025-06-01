@@ -19,26 +19,4 @@ public class OrderItemMapper implements EntityMapper<OrderItem, OrderItemDto> {
       .productId(entity.getProductId())
       .build();
   }
-
-  @Override
-  public List<OrderItemDto> toDtoList(List<OrderItem> entities) {
-    return entities.stream().map(this::toDto).toList();
-  }
-
-  @Override
-  public OrderItem toEntity(OrderItemDto dto) {
-    return OrderItem.builder()
-      .id(dto.getId())
-      .purchasedPrice(dto.getPurchasedPrice())
-      .quantity(dto.getQuantity())
-      .wholesalePrice(dto.getWholesalePrice())
-      .order(null) // should be fixed. ill disable adding new order item directly, so it would never call this
-      .productId(dto.getProductId())
-      .build();
-  }
-
-  @Override
-  public void updateEntityFromDto(OrderItem entity, OrderItemDto dto) {
-
-  }
 }

@@ -1,6 +1,8 @@
 package org.example.hibernateserver.controller;
 
+import org.example.hibernateserver.domain.OrderItem;
 import org.example.hibernateserver.dto.common.DataResponse;
+import org.example.hibernateserver.dto.orderitem.OrderItemDto;
 import org.example.hibernateserver.dto.orderitem.OrderItemQueryDto;
 import org.example.hibernateserver.dto.orderitem.MostPurchasedItemDto;
 import org.example.hibernateserver.dto.orderitem.RecentlyPurchasedItemDto;
@@ -16,12 +18,22 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order-item")
-public class OrderItemController {
+public class OrderItemController extends AbstractRestController<OrderItemService, OrderItem, OrderItemDto, OrderItemQueryDto> {
   private final OrderItemService orderItemService;
   public OrderItemController(OrderItemService orderItemService) {
+    super(orderItemService);
     this.orderItemService = orderItemService;
   }
 
+  @Override
+  protected boolean supportsUpdate() {
+    return false;
+  }
+
+  @Override
+  protected boolean supportsCreate() {
+    return false;
+  }
   @GetMapping("/most-purchased")
   public DataResponse<List<MostPurchasedItemDto>> findMostPurchasedItems(@Valid @ModelAttribute
   OrderItemQueryDto orderItemQueryDto, BindingResult result) {

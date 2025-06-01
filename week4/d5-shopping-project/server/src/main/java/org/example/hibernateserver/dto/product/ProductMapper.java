@@ -20,11 +20,6 @@ public class ProductMapper implements EntityMapper<Product, ProductDto> {
   }
 
   @Override
-  public List<ProductDto> toDtoList(List<Product> products) {
-    return products.stream().map(this::toDto).toList();
-  }
-
-  @Override
   public Product toEntity(ProductDto product) {
     return Product.builder()
       .id(product.getId())
