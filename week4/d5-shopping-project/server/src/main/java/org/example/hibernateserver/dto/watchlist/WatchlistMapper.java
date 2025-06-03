@@ -5,7 +5,7 @@ import org.example.hibernateserver.dto.common.EntityMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WatchlistMapper implements EntityMapper<Watchlist, WatchlistDto> {
+public class WatchlistMapper implements EntityMapper<Watchlist, WatchlistDto, WatchlistCreateDto> {
 
   @Override
   public WatchlistDto toDto(Watchlist entity) {
@@ -17,10 +17,9 @@ public class WatchlistMapper implements EntityMapper<Watchlist, WatchlistDto> {
   }
 
   @Override
-  public Watchlist toEntity(WatchlistDto dto) {
+  public Watchlist toEntity(WatchlistCreateDto dto, Long userId) {
     return Watchlist.builder()
-      .id(dto.getId())
-      .userId(dto.getUserId())
+      .userId(userId)
       .productId(dto.getProductId())
       .build();
   }

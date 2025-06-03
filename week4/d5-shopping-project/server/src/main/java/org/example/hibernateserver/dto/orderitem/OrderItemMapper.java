@@ -5,7 +5,7 @@ import org.example.hibernateserver.dto.common.EntityMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderItemMapper implements EntityMapper<OrderItem, OrderItemDto> {
+public class OrderItemMapper implements EntityMapper<OrderItem, OrderItemDto, OrderItemCreateDto> {
   @Override
   public OrderItemDto toDto(OrderItem entity) {
     return OrderItemDto.builder()
@@ -19,7 +19,7 @@ public class OrderItemMapper implements EntityMapper<OrderItem, OrderItemDto> {
   }
 
   @Override
-  public OrderItem toEntity(OrderItemDto dto) {
+  public OrderItem toEntity(OrderItemCreateDto dto) {
     return OrderItem.builder()
       .purchasedPrice(dto.getPurchasedPrice())
       .quantity(dto.getQuantity())

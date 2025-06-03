@@ -15,4 +15,9 @@ public class WatchlistService extends AbstractService<Watchlist, WatchlistDto, W
   public WatchlistService(WatchlistDao watchlistDao, WatchlistMapper watchlistMapper) {
     super(watchlistDao, watchlistMapper);
   }
+
+  @Override
+  protected boolean saveRequiresUserId() {
+    return true;
+  }
 }

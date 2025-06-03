@@ -4,6 +4,7 @@ import org.example.hibernateserver.dto.common.AbstractQueryDto;
 import org.example.hibernateserver.dto.common.CreateDto;
 import org.example.hibernateserver.dto.common.DataResponse;
 import org.example.hibernateserver.dto.common.IdentifiableDto;
+import org.example.hibernateserver.dto.common.RequestContext;
 import org.example.hibernateserver.service.AbstractService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,7 +51,7 @@ public abstract class AbstractRestController<S extends AbstractService<E,D,Q,C>,
     if (result.hasErrors()) {
       return DataResponse.failure("Invalid data.");
     }
-    abstractService.save(dto, 1L);
+    abstractService.save(dto, RequestContext.forUser(1L));
     return DataResponse.successWithMessage("Successfully created.");
   }
   @PatchMapping()

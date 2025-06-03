@@ -2,6 +2,7 @@ package org.example.hibernateserver.service;
 
 import org.example.hibernateserver.dao.OrderDao;
 import org.example.hibernateserver.domain.Order;
+import org.example.hibernateserver.dto.common.RequestContext;
 import org.example.hibernateserver.dto.order.OrderCreateDto;
 import org.example.hibernateserver.dto.order.OrderDto;
 import org.example.hibernateserver.dto.order.OrderMapper;
@@ -21,18 +22,18 @@ public class OrderService extends AbstractService<Order, OrderDto, OrderQueryDto
   }
 
   @Override
-  protected OrderDto buildDto(OrderCreateDto dto, Long userId) {
-    return OrderDto.builder().userId(userId).build();
-  }
-
-  @Override
-  protected void postSave(OrderCreateDto dto, Long entityId) {
+  protected void postSave(OrderCreateDto dto, Long entityId, RequestContext ctx) {
     // optimization to get all products in 1 query: map to productIds, findAll filter by id in the list, map id to wholesale price, reuse it through the second loop
     dto.getOrderItems().forEach(orderItemCreateDto -> {
       orderItemCreateDto.setOrderId(entityId);
       Double wholesalePrice = productService.findById(orderItemCreateDto.getProductId()).getWholesalePrice();
       orderItemCreateDto.setWholesalePrice(wholesalePrice);
-      orderItemService.save(orderItemCreateDto);
+      orderItemService.save(orderItemCreateDto, ctx);
     });
+  }
+
+  @Override
+  protected boolean saveRequiresUserId() {
+    return true;
   }
 }
