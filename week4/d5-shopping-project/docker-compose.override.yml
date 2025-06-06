@@ -1,0 +1,14 @@
+services:
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+      args:
+        - COMPOSE_BAKE=true
+    env_file: .env
+    ports:
+      - "8080:8080"
+      - "5005:5005"  # For remote debugging
+    volumes:
+      - ./server:/app
+      - ~/.m2:/root/.m2  # Maven cache

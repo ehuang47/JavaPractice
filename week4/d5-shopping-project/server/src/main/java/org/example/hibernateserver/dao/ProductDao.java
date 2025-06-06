@@ -9,7 +9,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class ProductDao extends AbstractDao<Product, ProductQueryDto> {
