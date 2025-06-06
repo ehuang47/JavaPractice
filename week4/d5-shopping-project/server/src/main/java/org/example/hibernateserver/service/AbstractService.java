@@ -30,21 +30,32 @@ public abstract class AbstractService<E,D extends IdentifiableDto,Q extends Abst
     return entityMapper.toDto(abstractDao.findById(id));
   }
 
+  protected void beforeSave(E entity, RequestContext ctx) {}
+  protected void afterSave(C dto, Long entityId, RequestContext ctx) {}
+  protected void beforeSaveAll(List<E> entities, RequestContext ctx) {}
+  protected void afterSaveAll(List<E> savedEntities, List<Long> entityIds, RequestContext ctx) {}
+
+  // Optional user ID setting (only implement if needed)
+  protected void setUserIdIfRequired(E entity, RequestContext ctx) {}
+  protected void setUserIdsIfRequired(List<E> entities, RequestContext ctx) {
+    entities.forEach(entity -> setUserIdIfRequired(entity, ctx));
+  }
   @Transactional
   public void save(C dto, RequestContext ctx) {
-    E entity;
-    if (saveRequiresUserId()) {
-      Long userId = requireUserId(ctx);
-      entity = entityMapper.toEntity(dto, userId);
-    } else {
-      entity = entityMapper.toEntity(dto);
-    }
+    E entity = entityMapper.toEntity(dto);
+    setUserIdIfRequired(entity, ctx);
+    beforeSave(entity, ctx);
     Long id = abstractDao.save(entity);
-    postSave(dto, id, ctx);
+    afterSave(dto, id, ctx);
   }
 
-  protected void postSave(C dto, Long entityId, RequestContext ctx) {}
-  protected boolean saveRequiresUserId() { return false; }
+  @Transactional
+  public void saveAll(List<E> entities, RequestContext ctx){
+    setUserIdsIfRequired(entities, ctx);
+    beforeSaveAll(entities, ctx);
+    List<Long> entityIds = abstractDao.saveAll(entities);
+    afterSaveAll(entities, entityIds, ctx);
+  }
 
   @Transactional
   public void update(D dto) {
@@ -52,11 +63,7 @@ public abstract class AbstractService<E,D extends IdentifiableDto,Q extends Abst
     entityMapper.updateEntityFromDto(entity,dto);
   }
 
-  private Long requireUserId(RequestContext ctx) {
-    Long userId = ctx.getUserId();
-    if (userId == null) {
-      throw new IllegalArgumentException("User id required.");
-    }
-    return userId;
+  public E mapToEntity(C dto) {
+    return entityMapper.toEntity(dto);
   }
 }

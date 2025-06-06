@@ -11,9 +11,6 @@ import org.example.hibernateserver.dto.common.CreateDto;
 @AllArgsConstructor
 @Builder
 public class OrderItemCreateDto implements CreateDto {
-  private Double purchasedPrice;
   private Integer quantity;
-  private Double wholesalePrice;
-  private Long orderId;
   private Long productId;
 }

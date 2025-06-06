@@ -17,9 +17,8 @@ public class OrderMapper implements EntityMapper<Order, OrderDto, OrderCreateDto
   }
 
   @Override
-  public Order toEntity(OrderCreateDto dto, Long userId) {
+  public Order toEntity(OrderCreateDto dto) {
     return Order.builder()
-      .userId(userId)
       .build();
   }
 

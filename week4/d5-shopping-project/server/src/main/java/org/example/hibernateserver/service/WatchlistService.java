@@ -2,6 +2,7 @@ package org.example.hibernateserver.service;
 
 import org.example.hibernateserver.dao.WatchlistDao;
 import org.example.hibernateserver.domain.Watchlist;
+import org.example.hibernateserver.dto.common.RequestContext;
 import org.example.hibernateserver.dto.watchlist.WatchlistCreateDto;
 import org.example.hibernateserver.dto.watchlist.WatchlistDto;
 import org.example.hibernateserver.dto.watchlist.WatchlistMapper;
@@ -17,7 +18,7 @@ public class WatchlistService extends AbstractService<Watchlist, WatchlistDto, W
   }
 
   @Override
-  protected boolean saveRequiresUserId() {
-    return true;
+  protected void setUserIdIfRequired(Watchlist entity, RequestContext ctx) {
+    entity.setUserId(ctx.getUserId());
   }
 }

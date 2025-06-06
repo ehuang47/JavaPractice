@@ -21,10 +21,7 @@ public class OrderItemMapper implements EntityMapper<OrderItem, OrderItemDto, Or
   @Override
   public OrderItem toEntity(OrderItemCreateDto dto) {
     return OrderItem.builder()
-      .purchasedPrice(dto.getPurchasedPrice())
       .quantity(dto.getQuantity())
-      .wholesalePrice(dto.getWholesalePrice())
-      .orderId(dto.getOrderId())
       .productId(dto.getProductId())
       .build();
   }

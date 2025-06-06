@@ -17,9 +17,8 @@ public class WatchlistMapper implements EntityMapper<Watchlist, WatchlistDto, Wa
   }
 
   @Override
-  public Watchlist toEntity(WatchlistCreateDto dto, Long userId) {
+  public Watchlist toEntity(WatchlistCreateDto dto) {
     return Watchlist.builder()
-      .userId(userId)
       .productId(dto.getProductId())
       .build();
   }

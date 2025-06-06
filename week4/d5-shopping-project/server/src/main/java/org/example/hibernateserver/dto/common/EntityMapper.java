@@ -8,6 +8,5 @@ public interface EntityMapper<E, D,C extends CreateDto> {
     return entities.stream().map(this::toDto).toList();
   }
   default E toEntity(C dto) {return null;}
-  default E toEntity(C dto, Long userId) {return null;}
   default void updateEntityFromDto(E entity, D dto) {}
 }

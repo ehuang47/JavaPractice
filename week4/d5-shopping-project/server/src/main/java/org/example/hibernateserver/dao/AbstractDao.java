@@ -19,6 +19,8 @@ public abstract class AbstractDao<E, Q extends AbstractQueryDto> {
   protected SessionFactory sessionFactory;
 
   protected Class<E> tClass;
+  private static final int BATCH_SIZE = 25;
+
 
   protected final void settClass(final Class<E> tClass) {
     this.tClass = tClass;
@@ -74,6 +76,19 @@ public abstract class AbstractDao<E, Q extends AbstractQueryDto> {
 
   public Long save(E entity) {
     return (Long) getCurrentSession().save(entity);
+  }
+
+  public List<Long> saveAll(List<E> entities) {
+    List<Long> savedIds = new ArrayList<>();
+    Session session = getCurrentSession();
+    for (int i = 0; i < entities.size(); i++) {
+      savedIds.add((Long) session.save(entities.get(i)));
+      if (i%BATCH_SIZE == 0) {
+        session.flush();
+        session.clear();
+      }
+    }
+    return savedIds;
   }
 
   public Optional<E> load(Long id) {
