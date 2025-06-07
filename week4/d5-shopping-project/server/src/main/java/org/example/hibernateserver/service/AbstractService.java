@@ -6,9 +6,9 @@ import org.example.hibernateserver.dto.common.EntityMapper;
 import org.example.hibernateserver.dto.common.IdentifiableDto;
 import org.example.hibernateserver.dto.common.AbstractQueryDto;
 import org.example.hibernateserver.dto.common.RequestContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import java.util.List;
 
 public abstract class AbstractService<E,D extends IdentifiableDto,Q extends AbstractQueryDto, C extends CreateDto> {
@@ -20,17 +20,17 @@ public abstract class AbstractService<E,D extends IdentifiableDto,Q extends Abst
     this.entityMapper = entityMapper;
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   public List<D> getAll(Q queryDto) {
     return entityMapper.toDtoList(abstractDao.getAll(queryDto));
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   public D findById(Long id) {
     return entityMapper.toDto(abstractDao.findById(id));
   }
 
-  protected void beforeSave(E entity, RequestContext ctx) {}
+  protected void beforeSave(E entity, C dto, RequestContext ctx) {}
   protected void afterSave(C dto, Long entityId, RequestContext ctx) {}
   protected void beforeSaveAll(List<E> entities, RequestContext ctx) {}
   protected void afterSaveAll(List<E> savedEntities, List<Long> entityIds, RequestContext ctx) {}
@@ -44,7 +44,7 @@ public abstract class AbstractService<E,D extends IdentifiableDto,Q extends Abst
   public void save(C dto, RequestContext ctx) {
     E entity = entityMapper.toEntity(dto);
     setUserIdIfRequired(entity, ctx);
-    beforeSave(entity, ctx);
+    beforeSave(entity, dto, ctx);
     Long id = abstractDao.save(entity);
     afterSave(dto, id, ctx);
   }

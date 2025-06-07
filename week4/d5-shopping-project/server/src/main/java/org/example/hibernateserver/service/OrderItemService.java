@@ -14,7 +14,7 @@ import org.example.hibernateserver.dto.product.ProductQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,12 +31,12 @@ public class OrderItemService extends AbstractService<OrderItem, OrderItemDto, O
     this.productService = productService;
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   public List<MostPurchasedItemDto> findMostPurchasedItems(OrderItemQueryDto orderItemQueryDto) {
     return orderItemDao.findMostPurchased(orderItemQueryDto);
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   public List<RecentlyPurchasedItemDto> findRecentlyPurchasedItems(OrderItemQueryDto orderItemQueryDto) {
     return orderItemDao.findRecentPurchases(orderItemQueryDto);
   }
