@@ -40,9 +40,9 @@ public class OrderItemDao extends AbstractDao<OrderItem, OrderItemQueryDto> {
                 i.productId,
                 SUM(i.quantity) as totalQuantity
             )
-            FROM OrderItem i
-            JOIN i.order o
+            FROM OrderItem i, Order o
             WHERE o.status <> :orderStatus
+            AND i.orderId = o.id
             GROUP BY i.productId
             ORDER BY SUM(i.quantity) DESC
         """;
@@ -60,9 +60,9 @@ public class OrderItemDao extends AbstractDao<OrderItem, OrderItemQueryDto> {
                 i.quantity,
                 o.datePlaced as datePurchased
             )
-            FROM OrderItem i
-            JOIN i.order o
+            FROM OrderItem i, Order o
             WHERE o.status <> :orderStatus
+            AND i.orderId = o.id
             ORDER BY o.datePlaced DESC
         """;
 
