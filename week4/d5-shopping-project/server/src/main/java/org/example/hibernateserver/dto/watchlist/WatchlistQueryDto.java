@@ -12,4 +12,6 @@ import org.example.hibernateserver.dto.common.AbstractQueryDto;
 @EqualsAndHashCode(callSuper = true)
 public class WatchlistQueryDto extends AbstractQueryDto {
   private Boolean inStockOnly = false;
+  private String userId;
+  private String productId;
 }

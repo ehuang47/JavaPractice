@@ -10,6 +10,8 @@ import org.example.hibernateserver.dto.watchlist.WatchlistQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WatchlistService extends AbstractService<Watchlist, WatchlistDto, WatchlistQueryDto, WatchlistCreateDto>{
   @Autowired
@@ -20,5 +22,17 @@ public class WatchlistService extends AbstractService<Watchlist, WatchlistDto, W
   @Override
   protected void setUserIdIfRequired(Watchlist entity, RequestContext ctx) {
     entity.setUserId(ctx.getUserId());
+  }
+
+  @Override
+  protected void beforeSave(Watchlist entity, WatchlistCreateDto dto, RequestContext ctx) {
+    WatchlistQueryDto queryDto = new WatchlistQueryDto();
+    queryDto.setUserId(ctx.getUserId().toString());
+    queryDto.setProductId(dto.getProductId().toString());
+    List<Watchlist> watchlistProducts = abstractDao.getAll(queryDto);
+
+    if (!watchlistProducts.isEmpty()) {
+      throw new IllegalStateException("Product already exists in watchlist");
+    }
   }
 }
