@@ -7,6 +7,7 @@ import org.example.hibernateserver.dto.common.IdentifiableDto;
 import org.example.hibernateserver.dto.common.RequestContext;
 import org.example.hibernateserver.service.AbstractService;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -66,8 +67,18 @@ public abstract class AbstractRestController<S extends AbstractService<E,D,Q,C>,
     return DataResponse.successWithMessage("Successfully updated.");
   }
 
+  @DeleteMapping("/{id}")
+  public DataResponse<?> delete(@PathVariable Long id) {
+    if (!supportsDelete()) {
+      return DataResponse.failure("Delete not supported.");
+    }
+    abstractService.delete(id);
+    return DataResponse.successWithMessage("Successfully deleted.");
+  }
+
   protected boolean supportsGetAll() { return true; }
   protected boolean supportsGetById() { return true; }
   protected boolean supportsCreate() { return true; }
   protected boolean supportsUpdate() { return true; }
+  protected boolean supportsDelete() { return false; }
 }

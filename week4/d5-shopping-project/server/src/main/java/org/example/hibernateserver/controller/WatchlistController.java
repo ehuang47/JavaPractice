@@ -19,4 +19,9 @@ public class WatchlistController extends AbstractRestController<WatchlistService
   protected boolean supportsUpdate() {
     return false;
   }
+
+  @Override
+  protected boolean supportsDelete() {
+    return true;
+  }
 }

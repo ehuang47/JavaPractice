@@ -95,4 +95,9 @@ public abstract class AbstractDao<E, Q extends AbstractQueryDto> {
     final E entity = getCurrentSession().load(tClass, id);
     return Optional.ofNullable(entity);
   }
+
+  public void delete(Long id) {
+    final E entity = getCurrentSession().load(tClass, id);
+    getCurrentSession().delete(entity);
+  }
 }

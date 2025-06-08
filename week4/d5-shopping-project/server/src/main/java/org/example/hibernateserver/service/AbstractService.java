@@ -65,6 +65,11 @@ public abstract class AbstractService<E,D extends IdentifiableDto,Q extends Abst
     entityMapper.updateEntityFromDto(entity,dto);
   }
 
+  @Transactional
+  public void delete(Long id) {
+    abstractDao.delete(id);
+  }
+
   public E mapToEntity(C dto) {
     return entityMapper.toEntity(dto);
   }
