@@ -98,6 +98,12 @@ SELECT * from product;
 SELECT * from `order`;
 SELECT * from order_item;
 
+select o.id, status, oi.id, oi.quantity, p.id, p.quantity
+from `order` o
+    join order_item oi on o.id = oi.order_id
+    join product p on p.id = oi.product_id
+order by o.id, oi.id, p.id;
+
 select i.product_id, SUM(i.quantity) as totalQuantity
 from order_item i
     join `order` o
@@ -112,6 +118,17 @@ join `order` o on i.order_id = o.id
 where o.status <> 'CANCELED'
 order by o.date_placed desc
 limit 3;
+
+select p.id as productId,
+       p.description,
+       p.name as productName,
+       p.quantity as productQuantity,
+       p.retail_price,
+       p.wholesale_price,
+       i.quantity as orderItemQuantity
+from order_item i
+join product p on i.product_id = p.id
+where i.order_id = 1;
 -- ---------------------------------
 
 DROP TABLE IF EXISTS watchlist;

@@ -2,6 +2,7 @@ package org.example.hibernateserver.dao;
 
 import org.example.hibernateserver.domain.Order;
 import org.example.hibernateserver.domain.enums.OrderStatus;
+import org.example.hibernateserver.dto.order.OrderProductDto;
 import org.example.hibernateserver.dto.order.OrderQueryDto;
 import org.springframework.stereotype.Repository;
 
@@ -56,5 +57,26 @@ public class OrderDao extends AbstractDao<Order, OrderQueryDto> {
     }
 
     return orders;
+  }
+
+public List<OrderProductDto> getOrderProductsByOrderId(Long orderId) {
+  String jpql = """
+      SELECT new org.example.hibernateserver.dto.order.OrderProductDto(
+                  p.id as productId,
+                  p.name,
+                  p.description,
+                  p.quantity,
+                  p.retailPrice,
+                  p.wholesalePrice,
+                  oi.quantity as orderItemQuantity
+              )
+              FROM OrderItem oi, Product p
+              WHERE oi.productId = p.id
+              AND oi.orderId = :orderId
+      """;
+  return sessionFactory.getCurrentSession()
+    .createQuery(jpql, OrderProductDto.class)
+    .setParameter("orderId", orderId)
+    .getResultList();
   }
 }

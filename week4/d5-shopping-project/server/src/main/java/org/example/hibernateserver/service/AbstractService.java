@@ -12,7 +12,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 public abstract class AbstractService<E,D extends IdentifiableDto,Q extends AbstractQueryDto, C extends CreateDto> {
-  private final AbstractDao<E,Q> abstractDao;
+  protected final AbstractDao<E,Q> abstractDao;
   protected final EntityMapper<E,D,C> entityMapper;
 
   public AbstractService(AbstractDao<E,Q> abstractDao, EntityMapper<E,D,C> entityMapper) {
@@ -57,9 +57,11 @@ public abstract class AbstractService<E,D extends IdentifiableDto,Q extends Abst
     afterSaveAll(entities, entityIds, ctx);
   }
 
+  protected void beforeUpdate(E entity, D dto) {}
   @Transactional
   public void update(D dto) {
     E entity = abstractDao.load(dto.getId()).orElseThrow(() -> new EntityNotFoundException(dto.getId() + " not found"));
+    beforeUpdate(entity, dto);
     entityMapper.updateEntityFromDto(entity,dto);
   }
 

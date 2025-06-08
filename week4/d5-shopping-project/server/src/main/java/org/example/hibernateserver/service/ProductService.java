@@ -75,5 +75,4 @@ public class ProductService extends AbstractService<Product, ProductDto, Product
       update(product);
     }
   }
-
 }
