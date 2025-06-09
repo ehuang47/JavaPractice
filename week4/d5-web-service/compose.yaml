@@ -1,10 +1,41 @@
 services:
-  mysql:
-    image: 'mysql:latest'
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    env_file: .env
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      MYSQL_DATABASE: web_service
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - '3306'
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d  # Mount init scripts
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    container_name: web_service_api
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        - COMPOSE_BAKE=true
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    volumes:
+      - .:/app
+      - ~/.m2:/root/.m2
+
+volumes:
+  mysql_data:
