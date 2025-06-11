@@ -1,4 +1,4 @@
-package org.example.d5webservice.user;
+package org.example.d5webservice.quiz;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,13 +14,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "quiz")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Builder
+public class Quiz {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column
@@ -29,9 +29,6 @@ public class User {
   @Column(name="name", nullable = false)
   private String name;
 
-  @Column(name="username", nullable = false,unique = true)
-  private String username;
-
-  @Column(name="email", nullable = false, unique = true)
-  private String email;
+  @Column(name="user_id", nullable = false)
+  private Long userId;
 }

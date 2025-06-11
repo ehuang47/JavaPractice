@@ -2,10 +2,8 @@ package org.example.d5webservice.user;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-public record UserDto(
-  @NotNull Long id,
+public record UserCreateDto(
   @NotBlank String name,
   @NotBlank String username,
   @Email String email) {}
