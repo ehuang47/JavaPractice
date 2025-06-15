@@ -1,0 +1,12 @@
+services:
+  api:
+    container_name: web_service_api_test
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      target: test
+      args:
+        - COMPOSE_BAKE=true
+    volumes:
+      - ./target/test-results:/app/target/surefire-reports

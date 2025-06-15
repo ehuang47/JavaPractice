@@ -30,6 +30,7 @@
     <properties>
         <java.version>17</java.version>
         <hibernate.core>5.3.14.Final</hibernate.core>
+        <project.build.directory>/app</project.build.directory>
     </properties>
     <dependencies>
         <dependency>
@@ -91,6 +92,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
