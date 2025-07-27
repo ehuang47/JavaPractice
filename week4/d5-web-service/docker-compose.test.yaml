@@ -4,9 +4,12 @@ services:
     env_file: .env
     build:
       context: .
-      dockerfile: Dockerfile.prod
-      target: test
+      dockerfile: Dockerfile.dev
       args:
         - COMPOSE_BAKE=true
     volumes:
-      - ./target/test-results:/app/target/surefire-reports
+      - .:/app
+      - ~/.m2:/root/.m2  # Cache Maven dependencies
+      - ./target/surefire-reports:/app/target/surefire-reports
+      - ./target/site/jacoco:/app/target/site/jacoco
+    command: [ "./mvnw", "-X", "verify"]

@@ -1,0 +1,10 @@
+services:
+  api:
+    container_name: web_service_api_prod
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        - COMPOSE_BAKE=true
+    command: [ "java", "-jar", "app.jar" ]

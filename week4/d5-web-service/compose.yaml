@@ -36,6 +36,7 @@ services:
     volumes:
       - .:/app
       - ~/.m2:/root/.m2
+    command: ["./mvnw", "spring-boot:run", "-Dspring-boot.run.jvmArguments=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]
 
 volumes:
   mysql_data:

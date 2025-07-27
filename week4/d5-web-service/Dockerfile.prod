@@ -1,22 +1,10 @@
-# Test stage
-FROM eclipse-temurin:17-jdk-jammy as test
-WORKDIR /app
-COPY mvnw .
-COPY pom.xml .
-COPY .mvn .mvn
-RUN ./mvnw dependency:go-offline
-COPY src /app/src
-RUN mkdir -p test-results
-RUN ./mvnw test
-
 # Build stage
 FROM eclipse-temurin:17-jdk-jammy as build
 WORKDIR /app
-COPY --from=test /app /app
-RUN ./mvnw package -DskipTests
+COPY . .
+RUN chmod +x mvnw
+RUN ./mvnw verify
 
 # Runtime stage
 FROM eclipse-temurin:17-jre-jammy
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
